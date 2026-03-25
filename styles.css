@@ -254,12 +254,12 @@ body {
 }
 .scrolly-diagram {
   position: sticky; top: 0;
-  width: 58%; height: 100vh;
+  width: 62%; height: 100vh;
   display: flex; align-items: center; justify-content: center;
-  padding: 40px; z-index: 1;
+  padding: 20px 18px 12px 24px; z-index: 1;
   background: transparent;
 }
-.scrolly-text { width: 42%; position: relative; z-index: 2; }
+.scrolly-text { width: 38%; position: relative; z-index: 2; }
 .text-step {
   min-height: 100vh;
   display: flex; align-items: center;
@@ -322,11 +322,14 @@ body {
 /* ======= Diagram ======= */
 .diagram-svg {
   width: 100%; height: 100%;
-  max-width: 960px; max-height: 820px;
+  max-width: 1100px; max-height: 960px;
   filter: drop-shadow(0 30px 60px var(--card-shadow));
 }
 .diagram-svg text { font-family: 'DM Sans', sans-serif; transition: fill .4s; }
 .diagram-svg .mono { font-family: 'JetBrains Mono', monospace; }
+.diagram-svg .tiny { font-size: 10px; }
+.diagram-svg .small { font-size: 11px; }
+.diagram-svg .label { letter-spacing: 1.6px; font-weight: 800; }
 .diagram-svg .layer {
   opacity: 0;
   transition: opacity .8s cubic-bezier(.23,1,.32,1);
@@ -342,7 +345,7 @@ body {
   background: var(--bg-color);
 }
 .section-inner {
-  max-width: 1200px; width: 100%;
+  max-width: 1280px; width: 100%;
   opacity: 0; transform: translateY(60px);
   transition: opacity 1s cubic-bezier(.23,1,.32,1),
               transform 1s cubic-bezier(.23,1,.32,1);
@@ -389,6 +392,7 @@ body {
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: 24px; margin-bottom: 12px;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 .info-card .items {
   font-size: 15px; line-height: 1.7;
@@ -518,6 +522,7 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-top: 32px;
+  box-shadow: 0 10px 30px var(--card-shadow);
 }
 .footer-credit a {
   color: var(--text-primary);
@@ -577,7 +582,7 @@ body {
     width: 100%;
     height: 45vh;
     min-height: 300px;
-    padding: 12px;
+    padding: 12px 10px 8px;
     z-index: 10;
     border-bottom: 1px solid var(--border-color);
     background: var(--bg-color);
