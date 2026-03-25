@@ -96,80 +96,80 @@
     <div class="text-step" data-layers="L0,L1" id="step1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Core</span></div>
       <h2>The Model (LLM)</h2>
-      <p class="desc">A <strong>Large Language Model</strong> is the engine. You send it a prompt <span class="num-pill" style="background:var(--blue)">1</span> through an API, and it predicts the next tokens in its reply <span class="num-pill" style="background:var(--text-light)">2</span>.</p>
-      <p class="desc">On its own, this is just a stateless inference call: text in, text out. No durable memory, no file edits, and no ability to act in the world by itself.</p>
-      <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Stateless Engine</strong><span style="color:var(--text-muted)">The model knows a vast amount from training — facts, reasoning, code patterns — but it cannot look things up or take actions on its own.</span></div>
+      <p class="desc">A <strong>Large Language Model</strong> is an external API. You send it a prompt <span class="num-pill" style="background:var(--blue)">1</span> and it predicts the next tokens in its reply <span class="num-pill" style="background:var(--text-light)">2</span>.</p>
+      <p class="desc">On its own, this is a stateless inference call: text in, text out. No memory, no file access, no ability to act. The model sits on the right — a remote service your code calls.</p>
+      <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Remote API</strong><span style="color:var(--text-muted)">The model knows a vast amount from training — facts, reasoning, code patterns — but it cannot look things up or take actions. It is an external service, not your local process.</span></div>
     </div></div>
 
     <!-- Step 2: Context Window -->
     <div class="text-step" data-layers="L0,L1,L2" id="step2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Structure</span></div>
-      <h2>Context &amp; Prompts</h2>
-      <p class="desc">Before the model sees your message, the agent wrapper assembles a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">1</span> with system instructions, chat history, and structured state.</p>
-      <p class="desc">This is where the same base model becomes an assistant, a reviewer, or a planner. The context also tells the model to respond in structured formats like JSON for tool calls.</p>
+      <h2>Context Window</h2>
+      <p class="desc">Every model API call includes a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">1</span> — the system prompt, conversation history, and structured configuration that tells the model how to behave.</p>
+      <p class="desc">This is where the same base model becomes an assistant, a reviewer, or a planner. The context can also tell it to respond in structured JSON for tool calls instead of free-form text.</p>
       <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The context window <span class="num-pill" style="background:var(--amber);width:16px;height:16px;font-size:9px">1</span> is the lens through which the model sees everything. Change the context, change the behavior.</span></div>
     </div></div>
 
-    <!-- Step 3: Tool Use + Agent Boundary -->
+    <!-- Step 3: Tool Use + Agent Runtime -->
     <div class="text-step" data-layers="L0,L2,L3" id="step3"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; Action</span></div>
-      <h2>The Tool Executor</h2>
-      <p class="desc">When the model needs to act, it emits a structured <strong>tool request</strong> <span class="num-pill" style="background:var(--blue)">3</span> instead of plain text. A real executor process runs the tool, gathers the output <span class="num-pill" style="background:var(--green)">4</span>, and sends the result back into context.</p>
-      <p class="desc">The model then interprets that tool result and writes the final answer <span class="num-pill" style="background:var(--green)">5</span>. This model-plus-executor boundary is where a chat UI becomes an <strong>agent runtime</strong>.</p>
-      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Execution Boundary</strong><span style="color:var(--text-muted)">The model decides what to do. The executor actually does it — then feeds the result back for the model to interpret.</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; The Runtime</span></div>
+      <h2>Agent Runtime &amp; Executor</h2>
+      <p class="desc">The <strong>agent runtime</strong> is the local wrapper between you and the model. It assembles context, sends it to the model API, and interprets what comes back.</p>
+      <p class="desc">When the model returns a <strong>tool call</strong> <span class="num-pill" style="background:var(--blue)">3</span>, the runtime's executor runs it locally, collects the result <span class="num-pill" style="background:var(--green)">4</span>, feeds it back into context, and calls the model again. This is the boundary where a chat UI becomes an agent.</p>
+      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Execution Boundary</strong><span style="color:var(--text-muted)">The model decides <em>what</em> to do. The executor actually does it — locally, on your machine — then feeds the result back to the model.</span></div>
     </div></div>
 
     <!-- Step 4: MCP -->
     <div class="text-step" data-layers="L0,L2,L3,L4" id="step4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 4 &middot; Connectivity</span></div>
       <h2>MCP &middot; Universal Plugins</h2>
-      <p class="desc"><strong>Model Context Protocol (MCP)</strong> <span class="num-pill" style="background:var(--purple)">4</span> standardizes how agents discover and call tools exposed by external servers — GitHub, Jira, databases, internal APIs.</p>
-      <p class="desc">Not every integration uses MCP, but MCP makes connectors portable across different agent products by giving tools a shared interface instead of one-off custom glue.</p>
-      <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">Interoperability</strong><span style="color:var(--text-muted)">MCP <span class="num-pill" style="background:var(--purple);width:16px;height:16px;font-size:9px">4</span> sits between the agent runtime and outside services. The model calls a tool; MCP routes it to the right server.</span></div>
+      <p class="desc"><strong>Model Context Protocol (MCP)</strong> standardizes how agents discover and call tools. MCP servers expose tool schemas <span class="num-pill" style="background:var(--purple)">5</span> — the runtime injects these into the context assembly so the model knows what tools are available.</p>
+      <p class="desc">When the model emits a tool call, the executor routes it to the right MCP server <span class="num-pill" style="background:var(--purple)">6</span>. This makes connectors portable across different agent products.</p>
+      <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">How models discover tools</strong><span style="color:var(--text-muted)">Tool schemas go into the context — that is how the model knows what it can ask for. The MCP server handles the actual execution.</span></div>
     </div></div>
 
     <!-- Step 5: AGENTS.md -->
     <div class="text-step" data-layers="L0,L2,L3,L4,L5" id="step5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 5 &middot; Persona</span></div>
       <h2>Instruction Files</h2>
-      <p class="desc">Many agent products load project-level instruction files <span class="num-pill" style="background:var(--amber)">1</span> into the context window. Claude Code uses <code>CLAUDE.md</code>. OpenAI Codex uses <code>AGENTS.md</code>. Cursor uses <code>.cursor/rules</code>.</p>
-      <p class="desc">These files define role, standards, workflow expectations, and guardrails. Swapping the instruction layer can turn the same model into a security reviewer, staff engineer, or product writer.</p>
-      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Persistent Rules</strong><span style="color:var(--text-muted)">Instruction files <span class="num-pill" style="background:var(--amber);width:16px;height:16px;font-size:9px">1</span> are always loaded — they set the baseline persona and rules for every prompt.</span></div>
+      <p class="desc">On the user side, project-level instruction files <span class="num-pill" style="background:var(--amber)">7</span> get loaded into the runtime's context assembly. Claude Code uses <code>CLAUDE.md</code>. OpenAI Codex uses <code>AGENTS.md</code>. Cursor uses <code>.cursor/rules</code>.</p>
+      <p class="desc">These files define role, standards, workflow expectations, and guardrails. Swapping the instruction layer turns the same model into a security reviewer, staff engineer, or product writer.</p>
+      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Your Rules, Your Files</strong><span style="color:var(--text-muted)">Instruction files <span class="num-pill" style="background:var(--amber);width:16px;height:16px;font-size:9px">7</span> live on your machine, not in the model. The runtime injects them into every prompt.</span></div>
     </div></div>
 
     <!-- Step 6: SKILL.md -->
     <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6" id="step6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">Step 6 &middot; Expertise</span></div>
       <h2>Reusable Workflows</h2>
-      <p class="desc">Some systems also list specialized workflow modules <span class="num-pill" style="background:var(--rose)">2</span> — skills, playbooks, or runbooks — as available tools in the system prompt. The model sees a registry of skill names and descriptions.</p>
-      <p class="desc">When a skill is relevant, the model makes a <strong>tool call</strong> to load it. The skill content is returned as the tool result and injected into context — just like any other tool call. This keeps the base context lean while giving on-demand expertise.</p>
-      <div class="callout" style="background:var(--rose-bg)"><strong style="color:var(--rose)">Load on Demand</strong><span style="color:var(--text-muted)">"Load on demand" is just another tool call <span class="num-pill" style="background:var(--rose);width:16px;height:16px;font-size:9px">2</span>. The skill registry lives in the system prompt; loading a skill returns its content as a tool result.</span></div>
+      <p class="desc">A <strong>skill registry</strong> <span class="num-pill" style="background:var(--rose)">8</span> lists available workflows in the context — names and short descriptions the model can read.</p>
+      <p class="desc">When a skill is relevant, the model makes a <strong>tool call</strong> to load it. The executor reads the skill file and returns its content as a tool result, injecting it into context. "Load on demand" is just another tool call — the skill content comes back like any tool result.</p>
+      <div class="callout" style="background:var(--rose-bg)"><strong style="color:var(--rose)">On-Demand Loading</strong><span style="color:var(--text-muted)">The registry <span class="num-pill" style="background:var(--rose);width:16px;height:16px;font-size:9px">8</span> lives in the prompt. Loading a skill is a tool call that returns the skill's full content into context.</span></div>
     </div></div>
 
     <!-- Step 7: Bash -->
     <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7" id="step7"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">Step 7 &middot; Direct Power</span></div>
       <h2>Bash &amp; System Access</h2>
-      <p class="desc">The highest-leverage tools are often local ones: shell commands, file writes, test runners, package managers, and deployment scripts <span class="num-pill" style="background:var(--orange)">7</span>.</p>
-      <p class="desc">That is also why permissions matter. Sandboxes, approval gates, network policies, and audit logs are part of the architecture, not optional afterthoughts.</p>
-      <div class="callout" style="background:var(--orange-bg)"><strong style="color:var(--orange)">Permissions</strong><span style="color:var(--text-muted)">The permission layer <span class="num-pill" style="background:var(--orange);width:16px;height:16px;font-size:9px">7</span> defines the blast radius of the agent. A prompt like "create a minesweeper game" can write files, install packages, and run tests.</span></div>
+      <p class="desc">The highest-leverage tools are local ones: shell commands, file writes, test runners, package managers <span class="num-pill" style="background:var(--orange)">9</span>. These run inside the agent runtime, giving the model access to your entire development environment.</p>
+      <p class="desc">A prompt like "create a minesweeper game" can write files, install packages, and run tests — all through the executor.</p>
+      <div class="callout" style="background:var(--orange-bg)"><strong style="color:var(--orange)">Local Power</strong><span style="color:var(--text-muted)">Bash <span class="num-pill" style="background:var(--orange);width:16px;height:16px;font-size:9px">9</span> is just another tool the executor can call — but it gives the agent access to your entire filesystem and toolchain.</span></div>
     </div></div>
 
     <!-- Step 8: Agentic Loop -->
     <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7,L8" id="step8"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">Step 8 &middot; Autonomy</span></div>
       <h2>The Autonomous Loop</h2>
-      <p class="desc">This is the jump from assistant to agent. But the model itself has not changed — it still handles <strong>one prompt and one prediction at a time</strong>.</p>
-      <p class="desc">The loop <span class="num-pill" style="background:var(--coral)">10</span> comes from <strong>instructions in the context</strong>. The persona and rules tell the model: plan your approach, take an action, observe the result, decide if you are done. The wrapper re-invokes the model with updated context after each step.</p>
-      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Instructions, Not Magic</strong><span style="color:var(--text-muted)">The model does not "loop" — the wrapper does. Instructions tell it to plan, act, and observe. The wrapper keeps calling the model <span class="num-pill" style="background:var(--coral);width:16px;height:16px;font-size:9px">10</span> until the task is complete.</span></div>
+      <p class="desc">This is the jump from assistant to agent. The model itself has not changed — it still handles <strong>one prompt and one prediction at a time</strong>.</p>
+      <p class="desc">The loop <span class="num-pill" style="background:var(--coral)">10</span> comes from <strong>instructions in the context</strong>. The persona tells the model: plan your approach, take an action, observe the result, decide if you are done. The runtime wrapper re-invokes the model with updated context after each step — wrapping around both the runtime and the model API.</p>
+      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Instructions, Not Magic</strong><span style="color:var(--text-muted)">The model does not "loop" — the wrapper does. Plan <span class="num-pill" style="background:var(--coral);width:16px;height:16px;font-size:9px">10</span> &rarr; act &rarr; observe &rarr; repeat, until the task is complete.</span></div>
     </div></div>
 
     <!-- Step 9: Multi-Agent -->
     <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7,L8,L9" id="step9"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">Step 9 &middot; Swarms</span></div>
       <h2>Orchestration at Scale</h2>
-      <p class="desc">Finally, an orchestrator <span class="num-pill" style="background:var(--teal)">11</span> can spawn multiple agents with separate contexts, tool scopes, or sandboxes. They delegate work, report back, and sometimes run in parallel.</p>
-      <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Delegation</strong><span style="color:var(--text-muted)">Multi-agent systems <span class="num-pill" style="background:var(--teal);width:16px;height:16px;font-size:9px">11</span> are composition: many agent runtimes coordinated together.</span></div>
+      <p class="desc">An orchestrator <span class="num-pill" style="background:var(--teal)">11</span> can spawn multiple agent runtimes — each with its own context, tool scope, and model connection. They delegate work, report back, and sometimes run in parallel.</p>
+      <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Delegation</strong><span style="color:var(--text-muted)">Multi-agent systems <span class="num-pill" style="background:var(--teal);width:16px;height:16px;font-size:9px">11</span> are composition: many runtimes coordinated, each calling its own model API independently.</span></div>
     </div></div>
 
   </div>
