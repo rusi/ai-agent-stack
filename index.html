@@ -115,26 +115,41 @@
       <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Stateless</strong><span style="color:var(--text-muted)">Each API call is independent. The model knows facts, reasoning, and code patterns from training — but it cannot look things up or take actions.</span></div>
     </div></div>
 
-    <!-- Step 2: Context Window -->
-    <div class="text-step" data-layers="L0,L1q,L1r,L2" id="step2"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Structure</span></div>
-      <h2>Context Window</h2>
-      <p class="desc">Every model API call includes a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">1</span> — the system prompt, conversation history, and structured configuration that tells the model how to behave.</p>
-      <p class="desc">This is where the same base model becomes an assistant, a reviewer, or a planner. The context can also tell it to respond in structured JSON for tool calls instead of free-form text.</p>
-      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The context window <span class="num-pill" style="background:var(--amber);width:16px;height:16px;font-size:9px">1</span> is the lens through which the model sees everything. Change the context, change the behavior.</span></div>
+    <!-- Step 2a: Agent Runtime + Execution Engine appear -->
+    <div class="text-step" data-layers="L0,L2a" id="step2a"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 2 &middot; The Runtime</span></div>
+      <h2>The Agent Runtime</h2>
+      <p class="desc">Between you and the model sits the <strong>agent runtime</strong> — a local wrapper that assembles context, calls the model API, and interprets what comes back.</p>
+      <p class="desc">At its core is the <strong>Execution Engine</strong>: the component that receives your request and coordinates everything that follows.</p>
     </div></div>
 
-    <!-- Step 3: Tool Use + Agent Runtime -->
-    <div class="text-step" data-layers="L0,L2,L3" id="step3"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; The Runtime</span></div>
-      <h2>Agent Runtime &amp; Executor</h2>
-      <p class="desc">The <strong>agent runtime</strong> is the local wrapper between you and the model. It assembles context, sends it to the model API, and interprets what comes back.</p>
-      <p class="desc">When the model returns a <strong>tool call</strong> <span class="num-pill" style="background:var(--blue)">3</span>, the runtime's executor runs it locally, collects the result <span class="num-pill" style="background:var(--green)">4</span>, feeds it back into context, and calls the model again. This is the boundary where a chat UI becomes an agent.</p>
-      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Execution Boundary</strong><span style="color:var(--text-muted)">The model decides <em>what</em> to do. The executor actually does it — locally, on your machine — then feeds the result back to the model.</span></div>
+    <!-- Step 2b: User question enters Engine -->
+    <div class="text-step" data-layers="L0,L2a,L2b" id="step2b"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 2 &middot; The Request</span></div>
+      <h2>Your Question Enters the Runtime</h2>
+      <p class="desc">You ask: &ldquo;What is the weather in Boston?&rdquo; <span class="num-pill" style="background:var(--blue)">1</span>. This time the question goes to the Execution Engine — not directly to the model.</p>
+    </div></div>
+
+    <!-- Step 2c: Context Window + Engine → Model -->
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c" id="step2c"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Context</span></div>
+      <h2>Context Window</h2>
+      <p class="desc">The runtime assembles a <strong>context window</strong> — system prompt, conversation history, and configuration — then forwards the question to the model <span class="num-pill" style="background:var(--blue)">2</span>.</p>
+      <p class="desc">The context window is the lens through which the model sees everything. Change the context, change the behavior.</p>
+      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The same base model becomes an assistant, a reviewer, or a planner — depending on what the runtime puts in the context window.</span></div>
+    </div></div>
+
+    <!-- Step 3: Tool Call Flow -->
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3" id="step3"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; Tool Use</span></div>
+      <h2>Tool Calls &amp; Results</h2>
+      <p class="desc">The model cannot check live weather — but it can ask for help. It returns a <strong>tool call</strong> <span class="num-pill" style="background:var(--blue)">3</span> instead of a plain answer.</p>
+      <p class="desc">The Execution Engine runs the tool locally, collects the result <span class="num-pill" style="background:var(--green)">4</span>, feeds it back into context, and calls the model again. The model now has real data and produces the final answer <span class="num-pill" style="background:var(--green)">5</span>.</p>
+      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Execution Boundary</strong><span style="color:var(--text-muted)">The model decides <em>what</em> to do. The engine actually does it — locally, on your machine — then feeds the result back.</span></div>
     </div></div>
 
     <!-- Step 4: MCP -->
-    <div class="text-step" data-layers="L0,L2,L3,L4" id="step4"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4" id="step4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 4 &middot; Connectivity</span></div>
       <h2>MCP &middot; Universal Plugins</h2>
       <p class="desc"><strong>Model Context Protocol (MCP)</strong> standardizes how agents discover and call tools. MCP servers expose tool schemas <span class="num-pill" style="background:var(--purple)">5</span> — the runtime injects these into the context assembly so the model knows what tools are available.</p>
@@ -143,7 +158,7 @@
     </div></div>
 
     <!-- Step 5: AGENTS.md -->
-    <div class="text-step" data-layers="L0,L2,L3,L4,L5" id="step5"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4,L5" id="step5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 5 &middot; Persona</span></div>
       <h2>Instruction Files</h2>
       <p class="desc">On the user side, project-level instruction files <span class="num-pill" style="background:var(--amber)">7</span> get loaded into the runtime's context assembly. Claude Code uses <code>CLAUDE.md</code>. OpenAI Codex uses <code>AGENTS.md</code>. Cursor uses <code>.cursor/rules</code>.</p>
@@ -152,7 +167,7 @@
     </div></div>
 
     <!-- Step 6: SKILL.md -->
-    <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6" id="step6"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4,L5,L6" id="step6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">Step 6 &middot; Expertise</span></div>
       <h2>Reusable Workflows</h2>
       <p class="desc">A <strong>skill registry</strong> <span class="num-pill" style="background:var(--rose)">8</span> lists available workflows in the context — names and short descriptions the model can read.</p>
@@ -161,7 +176,7 @@
     </div></div>
 
     <!-- Step 7: Bash -->
-    <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7" id="step7"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4,L5,L6,L7" id="step7"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">Step 7 &middot; Direct Power</span></div>
       <h2>Bash &amp; System Access</h2>
       <p class="desc">The highest-leverage tools are local ones: shell commands, file writes, test runners, package managers <span class="num-pill" style="background:var(--orange)">9</span>. These run inside the agent runtime, giving the model access to your entire development environment.</p>
@@ -170,7 +185,7 @@
     </div></div>
 
     <!-- Step 8: Agentic Loop -->
-    <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7,L8" id="step8"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4,L5,L6,L7,L8" id="step8"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">Step 8 &middot; Autonomy</span></div>
       <h2>The Autonomous Loop</h2>
       <p class="desc">This is the jump from assistant to agent. The model itself has not changed — it still handles <strong>one prompt and one prediction at a time</strong>.</p>
@@ -179,7 +194,7 @@
     </div></div>
 
     <!-- Step 9: Multi-Agent -->
-    <div class="text-step" data-layers="L0,L2,L3,L4,L5,L6,L7,L8,L9" id="step9"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L3,L4,L5,L6,L7,L8,L9" id="step9"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">Step 9 &middot; Swarms</span></div>
       <h2>Orchestration at Scale</h2>
       <p class="desc">An orchestrator <span class="num-pill" style="background:var(--teal)">11</span> can spawn multiple agent runtimes — each with its own context, tool scope, and model connection. They delegate work, report back, and sometimes run in parallel.</p>

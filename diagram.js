@@ -86,7 +86,24 @@
     pill(612, 504, 300, 'text-light'),
     '</g>',
 
-    '<g class="layer" id="L2">',
+    // --- Step 2 layers ---
+
+    '<g class="layer" id="L2a">',
+    '  <rect x="316" y="68" width="542" height="800" rx="36" fill="none" stroke="var(--text-light)" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.4"/>',
+    '  <text x="587" y="92" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="4" fill="var(--text-light)">AGENT RUNTIME</text>',
+    '  <text x="587" y="114" text-anchor="middle" font-size="11" fill="var(--text-muted)">local wrapper / orchestrator</text>',
+    '  <rect x="418" y="470" width="340" height="188" rx="32" fill="url(#gExec)" stroke="var(--green)" stroke-width="4" filter="url(#shadow)"/>',
+    '  <text x="588" y="540" text-anchor="middle" font-size="22" font-weight="800" fill="var(--green)">Execution Engine</text>',
+    '  <text x="588" y="566" text-anchor="middle" font-size="13" fill="var(--text-muted)">runs tools, returns results to context</text>',
+    '</g>',
+
+    '<g class="layer" id="L2b">',
+    bubble(440, 420, 'What is the weather in Boston?', 'var(--blue)', 270),
+    '  <path d="M270,464 L418,464" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(344, 464, 180, 'blue'),
+    '</g>',
+
+    '<g class="layer" id="L2c">',
     '  <rect x="930" y="86" width="280" height="192" rx="28" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="3" stroke-dasharray="10,8" filter="url(#shadow)"/>',
     '  <text x="1070" y="126" text-anchor="middle" font-size="18" font-weight="800" letter-spacing="2" fill="var(--amber)">CONTEXT WINDOW</text>',
     '  <text x="1070" y="156" text-anchor="middle" font-size="13" fill="var(--text-muted)">system prompt, history, state</text>',
@@ -94,30 +111,18 @@
     '  <text x="1070" y="216" text-anchor="middle" font-size="12" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">{ format: "json" }</text>',
     '  <text x="1070" y="248" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">+ conversation history</text>',
     '  <path d="M1070,278 L1070,318" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
-    pill(1096, 298, 100, 'amber'),
+    '  <path d="M758,464 L954,464" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(856, 440, 190, 'blue'),
     '</g>',
 
-    '<g class="layer" id="L3">',
-    '  <rect x="316" y="68" width="542" height="800" rx="36" fill="none" stroke="var(--text-light)" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.4"/>',
-    '  <text x="587" y="92" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="4" fill="var(--text-light)">AGENT RUNTIME</text>',
-    '  <text x="587" y="114" text-anchor="middle" font-size="11" fill="var(--text-muted)">local wrapper / orchestrator</text>',
+    // --- Step 3: Tool call flow (context assembly + tool_call + tool_result + response) ---
 
+    '<g class="layer" id="L3">',
     '  <rect x="360" y="148" width="454" height="142" rx="24" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2" stroke-dasharray="10,8" opacity="0.72"/>',
     '  <text x="587" y="178" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="var(--amber)">CONTEXT ASSEMBLY</text>',
     '  <text x="587" y="202" text-anchor="middle" font-size="12" fill="var(--text-muted)">assembles prompt before sending to model</text>',
     '  <path d="M814,220 L922,220" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
     pill(870, 220, 130, 'amber'),
-
-    '  <rect x="418" y="470" width="340" height="188" rx="32" fill="url(#gExec)" stroke="var(--green)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="588" y="538" text-anchor="middle" font-size="28" font-weight="800" fill="var(--green)">EXECUTOR</text>',
-    '  <text x="588" y="568" text-anchor="middle" font-size="14" fill="var(--text-muted)">runs tools, returns results to context</text>',
-
-    bubble(492, 364, 'What is the weather in Boston?', 'var(--blue)', 254),
-    '  <path d="M270,464 L418,464" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
-    pill(344, 464, 180, 'blue'),
-
-    '  <path d="M758,464 L954,464" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
-    pill(856, 438, 190, 'blue'),
 
     codeBubble(998, 684, 'weather("Boston")', 'var(--blue)', 204),
     '  <text x="998" y="658" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)" letter-spacing="1">TOOL_CALL</text>',
