@@ -55,14 +55,16 @@
 
     // ═══ L0 · Base boxes ═══
     '<g class="layer show" id="L0">',
+    // User box — centered text
     '  <rect x="50" y="400" width="200" height="260" rx="28" fill="var(--card-bg)" stroke="var(--border-color)" stroke-width="3" filter="url(#shadow)"/>',
-    '  <text x="150" y="458" text-anchor="middle" font-size="20" font-weight="800" fill="var(--text-primary)">The User</text>',
-    '  <text x="150" y="482" text-anchor="middle" font-size="14" fill="var(--text-muted)">Query / Intent</text>',
+    '  <text x="150" y="520" text-anchor="middle" font-size="24" font-weight="800" fill="var(--text-primary)">The User</text>',
+    '  <text x="150" y="546" text-anchor="middle" font-size="14" fill="var(--text-muted)">Query / Intent</text>',
+    // Model box — centered text
     '  <rect x="970" y="400" width="230" height="340" rx="42" fill="url(#gModel)" stroke="var(--blue)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="1085" y="468" text-anchor="middle" font-size="34" font-weight="800" fill="var(--blue)">Model</text>',
-    '  <text x="1085" y="500" text-anchor="middle" font-size="16" fill="var(--text-muted)">LLM / inference engine</text>',
-    '  <line x1="1010" y1="538" x2="1160" y2="538" stroke="var(--blue)" stroke-width="1.4" opacity="0.22"/>',
-    '  <text x="1085" y="558" text-anchor="middle" font-size="13" letter-spacing="2" font-weight="800" fill="var(--blue)">EXTERNAL API</text>',
+    '  <text x="1085" y="516" text-anchor="middle" font-size="36" font-weight="800" fill="var(--blue)">Model</text>',
+    '  <text x="1085" y="546" text-anchor="middle" font-size="16" fill="var(--text-muted)">LLM / inference engine</text>',
+    '  <line x1="1010" y1="578" x2="1160" y2="578" stroke="var(--blue)" stroke-width="1.4" opacity="0.22"/>',
+    '  <text x="1085" y="602" text-anchor="middle" font-size="13" letter-spacing="2" font-weight="800" fill="var(--blue)">EXTERNAL API</text>',
     '</g>',
 
     // ═══ L1q · Step 1 question ═══
@@ -85,8 +87,9 @@
     '  <text x="581" y="92" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="4" fill="var(--text-light)">AGENT RUNTIME</text>',
     '  <text x="581" y="114" text-anchor="middle" font-size="11" fill="var(--text-muted)">local wrapper / orchestrator</text>',
     '  <rect x="430" y="400" width="300" height="420" rx="32" fill="url(#gExec)" stroke="var(--green)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="580" y="438" text-anchor="middle" font-size="22" font-weight="800" fill="var(--green)">Execution Engine</text>',
-    '  <text x="580" y="462" text-anchor="middle" font-size="14" fill="var(--text-muted)">runs tools, returns results</text>',
+    '  <text x="580" y="480" text-anchor="middle" font-size="26" font-weight="800" fill="var(--green)">Execution</text>',
+    '  <text x="580" y="510" text-anchor="middle" font-size="26" font-weight="800" fill="var(--green)">Engine</text>',
+    '  <text x="580" y="536" text-anchor="middle" font-size="13" fill="var(--text-muted)">runs tools, returns results</text>',
     '</g>',
 
     // ═══ L2b · User → Engine ① ═══
