@@ -25,7 +25,7 @@
   <div class="hero-overline">A Visual Guide</div>
   <h1>The AI Agent Stack</h1>
   <p class="hero-subtitle">From Models to Multi-Agent Systems</p>
-  <p class="hero-sub">Nine building blocks, explained one layer at a time. Scroll to see how each piece connects.</p>
+  <p class="hero-sub">Start with a plain model API call. Then add instructions, tools, permissions, and loops until it becomes an agent.</p>
   <div class="hero-tags">
     <span class="tag" style="background:var(--blue-bg);color:var(--blue)">LLMs / Models</span>
     <span class="tag" style="background:var(--green-bg);color:var(--green)">Tool Use</span>
@@ -50,7 +50,7 @@
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Foundation</span></div>
       <h2>The Model (LLM)</h2>
       <p class="desc">A <strong>large language model</strong> — or just <strong>"model"</strong> — is software trained on enormous amounts of text. You send it a message, it predicts the most likely response, token by token.</p>
-      <p class="desc">No internet access. No memory between conversations. No tools. Just text in, text out.</p>
+      <p class="desc">No internet access. No memory between conversations. No tools. Just text in, text out. Many products stop here and simply make a <strong>plain API call</strong> to a model provider.</p>
       <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Example</strong><span style="color:var(--brown-light)">"What is the capital of France?" &rarr; "Paris." The model knows this from training data — it isn't looking anything up.</span></div>
     </div></div>
 
@@ -58,7 +58,7 @@
     <div class="text-step" data-layers="L0,L1,L2" id="step2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Structure</span></div>
       <h2>System Prompt &amp; Structured Output</h2>
-      <p class="desc">Before your message, the model receives a <strong>system prompt</strong> — hidden instructions that shape its behavior. Together, this forms the <strong>context window</strong>: everything the model can "see" for this conversation.</p>
+      <p class="desc">Before your message, the model receives a <strong>system prompt</strong> — hidden instructions that shape its behavior. Along with your message, prior turns, tool definitions, and any injected files, this makes up the <strong>context window</strong>: everything the model can "see" for this conversation.</p>
       <p class="desc">If the system prompt says "reply in JSON," the model outputs structured data instead of prose. Now <strong>software can parse it</strong> — and that changes everything.</p>
       <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Why this matters</strong><span style="color:var(--brown-light)">Structured output is what makes tools, MCP, and agents possible. It's how a model "talks" to code instead of to humans.</span></div>
     </div></div>
@@ -69,7 +69,7 @@
       <h2>AGENTS.md — The Persona</h2>
       <p class="desc">A markdown file <strong>injected into the system prompt</strong> when the agent starts. It defines who the agent is: its role, rules, allowed tools, and constraints.</p>
       <p class="desc">Different AGENTS.md = completely different agent. Same model, totally different behavior and expertise.</p>
-      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">In practice</strong><span style="color:var(--brown-light)">Claude Code uses <code>CLAUDE.md</code>, Cursor uses <code>.cursorrules</code>, Codex uses custom instructions. Different names, same idea — text injected before your message.</span></div>
+      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">In practice</strong><span style="color:var(--brown-light)">Different products package this differently: Claude Code uses <code>CLAUDE.md</code>, Cursor uses <code>.cursor/rules</code> or <code>AGENTS.md</code>, and OpenAI Codex can follow <code>AGENTS.md</code> files in your repo. Different names, same idea — instructions injected into model context before acting.</span></div>
     </div></div>
 
     <!-- Step 4: SKILL.md — load-on-demand (moved from step 7) -->
@@ -85,9 +85,9 @@
     <div class="text-step" data-layers="L0,L1,L2,L3,L4,L5" id="step5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 5 &middot; Action</span></div>
       <h2>Tool Use &amp; the Agent Boundary</h2>
-      <p class="desc">Now the <strong>Agent Application</strong> enters the picture — a wrapper program that sits between you and the model. It assembles the context, sends it to the model API, and handles responses.</p>
+      <p class="desc">Now the <strong>Agent Application</strong> enters the picture — a wrapper program that sits between you and the model. It assembles the context, calls the <strong>model provider API</strong>, and handles the responses.</p>
       <p class="desc">When you ask "What's the weather in Tokyo?", the model outputs a <strong>structured tool request</strong>. The agent's <strong>Tool Executor</strong> — separate code, not the model — runs the function, gets real-time data, and feeds the result back. The model then writes the final answer.</p>
-      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">The five boundaries</strong><span style="color:var(--brown-light)">You (user) &rarr; Agent Application (local wrapper) &rarr; Model (cloud API). Plus: Instructions (markdown files) feed in, and MCP Servers connect out. The model only outputs JSON — the agent executes it.</span></div>
+      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">The five boundaries</strong><span style="color:var(--brown-light)">You (user) &rarr; Agent Application (local wrapper) &rarr; Model Provider API &rarr; Model. Plus: instructions feed in, and MCP servers connect out. The model decides <em>what</em> to call; the agent decides <em>how</em> to execute it.</span></div>
     </div></div>
 
     <!-- Step 6: MCP -->
@@ -95,17 +95,17 @@
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 6 &middot; Connectivity</span></div>
       <h2>MCP — Model Context Protocol</h2>
       <p class="desc"><strong>MCP</strong> is a universal standard for connecting AI to external services — think USB-C for AI tools. Build one connector, any compatible agent can use it.</p>
-      <p class="desc">The available MCP tools are listed <strong>inside the system prompt</strong> — that's how the model knows what it can ask for. The <strong>MCP Server</strong> handles the actual API calls.</p>
+      <p class="desc">The available MCP tools are listed <strong>in the model context</strong> — that's how the model knows what it can ask for. The <strong>MCP Server</strong> handles the actual API calls when the executor invokes it.</p>
       <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">One protocol, hundreds of integrations</strong><span style="color:var(--brown-light)">Gmail, Slack, GitHub, Salesforce, Jira, PostgreSQL, Stripe — build once, connect everywhere.</span></div>
     </div></div>
 
     <!-- Step 7: Bash -->
     <div class="text-step" data-layers="L0,L1,L2,L3,L4,L5,L6,L7" id="step7"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">Step 7 &middot; Power</span></div>
-      <h2>Bash &amp; Terminal Access</h2>
+      <h2>Bash, Permissions &amp; Terminal Access</h2>
       <p class="desc">The executor can also run <strong>shell commands</strong> — install packages, read files, execute scripts, run tests. It's just another tool type, same pattern.</p>
-      <p class="desc">Model outputs <code>bash("npm test")</code>, executor runs it in a shell, result comes back. Simple — but powerful.</p>
-      <div class="callout" style="background:var(--orange-bg)"><strong style="color:var(--orange)">This is where risk increases</strong><span style="color:var(--brown-light)">The AI can now execute code on your machine. Sandboxing, permission boundaries, and approval workflows become critical.</span></div>
+      <p class="desc">But this is also where <strong>policy</strong> becomes part of the architecture. Before a command runs, good agents check sandbox rules, allowlists, approval gates, and environment boundaries.</p>
+      <div class="callout" style="background:var(--orange-bg)"><strong style="color:var(--orange)">This is where risk increases</strong><span style="color:var(--brown-light)">The model can suggest an action. The executor still has to decide whether that action is allowed. Sandboxing, permission boundaries, and approval workflows are not optional extras — they are part of the agent stack.</span></div>
     </div></div>
 
     <!-- Step 8: Agentic Loop -->
@@ -136,10 +136,27 @@
     <div class="step-label"><span class="step-dot" style="background:var(--brown-muted)"></span><span style="color:var(--brown-light)">Deployment</span></div>
     <h2 class="section-title">Where Does Each Part Run?</h2>
     <p class="section-subtitle">Different components live in different places — and that matters for security and compliance.</p>
-    <div class="grid-3">
-      <div class="info-card" style="border-top:4px solid var(--green)"><div style="font-size:28px;margin-bottom:10px">&#x1F4BB;</div><h3 style="color:var(--green)">Your Machine</h3><div class="items"><div>Agent runtime / CLI</div><div>Bash / file system access</div><div>AGENTS.md / SKILL.md</div><div>Local models (optional)</div></div></div>
-      <div class="info-card" style="border-top:4px solid var(--blue)"><div style="font-size:28px;margin-bottom:10px">&#x2601;&#xFE0F;</div><h3 style="color:var(--blue)">Cloud API</h3><div class="items"><div>LLM inference</div><div>Anthropic / OpenAI / Google</div><div>Pay-per-token pricing</div><div style="color:var(--coral)">Data sent to provider</div></div></div>
-      <div class="info-card" style="border-top:4px solid var(--purple)"><div style="font-size:28px;margin-bottom:10px">&#x1F3E2;</div><h3 style="color:var(--purple)">Enterprise Cloud</h3><div class="items"><div>AWS Bedrock / Azure OpenAI</div><div>LLM runs in your VPC</div><div>SOC2 / HIPAA / BAA</div><div style="color:var(--green)">Data stays in your account</div></div></div>
+    <div class="grid-4">
+      <div class="info-card" style="border-top:4px solid var(--green)">
+        <div class="card-mark" style="color:var(--green)">LOCAL RUNTIME</div>
+        <h3 style="color:var(--green)">Your Machine</h3>
+        <div class="items"><div>Agent runtime / CLI</div><div>Bash / file system access</div><div>AGENTS.md / SKILL.md</div><div>Local models (optional)</div></div>
+      </div>
+      <div class="info-card" style="border-top:4px solid var(--blue)">
+        <div class="card-mark" style="color:var(--blue)">MODEL API</div>
+        <h3 style="color:var(--blue)">Cloud Provider</h3>
+        <div class="items"><div>LLM inference</div><div>OpenAI / Anthropic / Google</div><div>Pay-per-token pricing</div><div style="color:var(--coral)">Prompts and outputs may leave your machine</div></div>
+      </div>
+      <div class="info-card" style="border-top:4px solid var(--purple)">
+        <div class="card-mark" style="color:var(--purple)">CONNECTED SYSTEMS</div>
+        <h3 style="color:var(--purple)">Tools &amp; MCP</h3>
+        <div class="items"><div>GitHub, Slack, Jira, PostgreSQL</div><div>Enterprise APIs and internal services</div><div>Permissions depend on connector scope</div><div>Blast radius follows credentials</div></div>
+      </div>
+      <div class="info-card" style="border-top:4px solid var(--orange)">
+        <div class="card-mark" style="color:var(--orange)">CONTROL PLANE</div>
+        <h3 style="color:var(--orange)">Guardrails</h3>
+        <div class="items"><div>Sandboxing and network limits</div><div>Allowlists and deny lists</div><div>Human approval before risky actions</div><div>Audit logs and replayability</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -148,16 +165,16 @@
   <div class="section-inner">
     <div class="step-label"><span class="step-dot" style="background:var(--gold)"></span><span style="color:var(--gold)">Real World</span></div>
     <h2 class="section-title">Same Stack, Different Products</h2>
-    <p class="section-subtitle">Every AI coding tool is built from the same blocks. What makes each one an <em>agent</em> is the same two things: <strong>a tool executor</strong> (it can take actions) and <strong>injected instructions</strong> (it has a persona and rules). The model alone is just a prediction engine.</p>
+    <p class="section-subtitle">Every AI coding tool is built from the same blocks. The important distinction is upstream architecture: some products mostly call <strong>model APIs directly</strong>; others also orchestrate <strong>other agents</strong> or remote sandboxes. The model alone is still just a prediction engine.</p>
     <div class="grid-2x2">
       <div class="info-card" style="border-top:4px solid var(--orange)">
         <h3 style="color:var(--orange)">Claude Code <span style="font-weight:400;font-size:14px;color:var(--brown-muted)">Anthropic &middot; CLI</span></h3>
         <div class="items">
           <div><strong>Model:</strong> Claude (Anthropic API)</div>
           <div><strong>Tools:</strong> Bash, file system, MCP servers</div>
-          <div><strong>Instructions:</strong> <code>CLAUDE.md</code> injected into system prompt</div>
-          <div><strong>Skills:</strong> <code>SKILL.md</code> loaded on-demand per task</div>
-          <div><strong>Multi-agent:</strong> Background subagents with isolated contexts</div>
+          <div><strong>Instructions:</strong> <code>CLAUDE.md</code> project and user memory files</div>
+          <div><strong>Specialization:</strong> Custom slash commands and subagents</div>
+          <div><strong>Multi-agent:</strong> Subagents with separate contexts and tool scopes</div>
         </div>
       </div>
       <div class="info-card" style="border-top:4px solid var(--purple)">
@@ -165,38 +182,45 @@
         <div class="items">
           <div><strong>Model:</strong> Multi-LLM (Claude, GPT, custom)</div>
           <div><strong>Tools:</strong> Terminal, codebase indexing, visual editor</div>
-          <div><strong>Instructions:</strong> <code>.cursorrules</code> injected into system prompt</div>
-          <div><strong>Skills:</strong> Built-in workflows (edit, compose, review)</div>
-          <div><strong>Multi-agent:</strong> Parallel background agents per file</div>
+          <div><strong>Instructions:</strong> <code>.cursor/rules</code> or <code>AGENTS.md</code> (<code>.cursorrules</code> is legacy)</div>
+          <div><strong>Specialization:</strong> Scoped project rules, user rules, and memories</div>
+          <div><strong>Multi-agent:</strong> Background agents in isolated remote environments</div>
         </div>
       </div>
       <div class="info-card" style="border-top:4px solid var(--blue)">
         <h3 style="color:var(--blue)">Codex <span style="font-weight:400;font-size:14px;color:var(--brown-muted)">OpenAI &middot; Cloud</span></h3>
         <div class="items">
-          <div><strong>Model:</strong> GPT-4o / o3 (OpenAI API)</div>
-          <div><strong>Tools:</strong> Sandboxed cloud environment, GitHub</div>
-          <div><strong>Instructions:</strong> Custom instructions in project config</div>
-          <div><strong>Skills:</strong> N/A (single workflow)</div>
-          <div><strong>Multi-agent:</strong> Parallel cloud tasks per issue</div>
+          <div><strong>Model:</strong> GPT-5.4</div>
+          <div><strong>Tools:</strong> Sandboxed cloud container, tests, linters, GitHub workflows</div>
+          <div><strong>Instructions:</strong> <code>AGENTS.md</code> files in the repo can guide execution</div>
+          <div><strong>Specialization:</strong> Environment config and task-specific delegation</div>
+          <div><strong>Multi-agent:</strong> Parallel cloud tasks running in separate sandboxes</div>
         </div>
       </div>
       <div class="info-card" style="border-top:4px solid var(--green)">
         <h3 style="color:var(--green)">OpenCode <span style="font-weight:400;font-size:14px;color:var(--brown-muted)">Open Source &middot; CLI</span></h3>
         <div class="items">
-          <div><strong>Model:</strong> Any LLM — or <em>another agent</em> (see below)</div>
+          <div><strong>Model path:</strong> Usually direct provider API calls</div>
+          <div><strong>Providers:</strong> OpenAI, Anthropic, Gemini, local models, and more</div>
           <div><strong>Tools:</strong> Bash, file system, MCP servers</div>
-          <div><strong>Instructions:</strong> <code>AGENTS.md</code> injected into system prompt</div>
-          <div><strong>Skills:</strong> Community-contributed skill files</div>
-          <div><strong>Multi-agent:</strong> Configurable sub-processes</div>
+          <div><strong>Instructions:</strong> <code>AGENTS.md</code> and compatible project guidance files</div>
+          <div><strong>Specialization:</strong> Native <code>SKILL.md</code> support via the skill tool</div>
+          <div><strong>Multi-agent:</strong> Primary agents plus configurable subagents</div>
         </div>
       </div>
     </div>
-    <div style="margin-top:28px;padding:20px 24px;background:white;border-radius:14px;border:1.5px solid var(--sand-light);font-size:14px;line-height:1.7;color:var(--brown-light)">
-      <strong style="color:var(--brown);display:block;margin-bottom:6px">The agent-as-model pattern</strong>
-      OpenCode can use Claude CLI <em>as its model</em> — even though Claude CLI is itself an agent with its own tools and instructions. From OpenCode's perspective, it's just an API that accepts text and returns text. But under the hood, that "model" is a full agent stack: Claude (the LLM) + CLAUDE.md (instructions) + Bash + MCP tools. This is how agent stacks compose — each layer can wrap the one below it.
+    <div class="compare-band">
+      <div class="compare-card">
+        <strong>Pattern A: direct model API</strong>
+        <span>Agent app &rarr; provider API &rarr; model. This is the common case for tools like OpenCode.</span>
+      </div>
+      <div class="compare-card">
+        <strong>Pattern B: agent-to-agent delegation</strong>
+        <span>Agent app &rarr; another agent or remote sandbox &rarr; model + tools. That is no longer a raw model call; it is a higher-level execution boundary.</span>
+      </div>
     </div>
     <div style="margin-top:16px;padding:18px;background:var(--amber-bg);border-radius:14px;text-align:center;font-size:15px;color:var(--brown-light)">
-      <strong style="color:var(--brown)">What makes it an agent?</strong> Not the model. The model just predicts tokens. An agent = model + <strong style="color:var(--green)">tool executor</strong> + <strong style="color:var(--amber)">instructions</strong> + <strong style="color:var(--coral)">loop</strong>.
+      <strong style="color:var(--brown)">What makes it an agent?</strong> Not the brand name and not the model alone. An agent = model + <strong style="color:var(--green)">tool executor</strong> + <strong style="color:var(--amber)">instructions</strong> + <strong style="color:var(--orange)">permissions</strong> + <strong style="color:var(--coral)">loop</strong>.
     </div>
   </div>
 </section>
@@ -221,11 +245,12 @@
     <h2 class="section-title" style="margin-bottom:40px">Key Takeaways</h2>
     <div style="display:flex;flex-direction:column;gap:10px;max-width:750px;margin:0 auto;text-align:left">
       <div class="layer-bar" style="border-color:var(--blue)"><span class="ln" style="color:var(--blue)">Same blocks everywhere</span><span class="ld">Model + structured output + tools + loop.</span></div>
-      <div class="layer-bar" style="border-color:var(--amber)"><span class="ln" style="color:var(--amber)">Config is king</span><span class="ld">AGENTS.md = who. SKILL.md = how.</span></div>
+      <div class="layer-bar" style="border-color:var(--amber)"><span class="ln" style="color:var(--amber)">Instructions shape behavior</span><span class="ld">AGENTS.md = who. SKILL.md = workflow expertise.</span></div>
       <div class="layer-bar" style="border-color:var(--purple)"><span class="ln" style="color:var(--purple)">MCP is the connector</span><span class="ld">One standard for all external services.</span></div>
+      <div class="layer-bar" style="border-color:var(--orange)"><span class="ln" style="color:var(--orange)">Permissions are architecture</span><span class="ld">Sandboxing and approvals decide what the agent may actually do.</span></div>
       <div class="layer-bar" style="border-color:var(--coral)"><span class="ln" style="color:var(--coral)">Loops give agency</span><span class="ld">Plan &rarr; Act &rarr; Observe &rarr; Repeat = agent.</span></div>
       <div class="layer-bar" style="border-color:var(--green)"><span class="ln" style="color:var(--green)">Deployment matters</span><span class="ld">Know where your data flows.</span></div>
-      <div class="layer-bar" style="border-color:var(--orange)"><span class="ln" style="color:var(--orange)">Don't block — govern</span><span class="ld">Build a framework to evaluate AI tools.</span></div>
+      <div class="layer-bar" style="border-color:var(--teal)"><span class="ln" style="color:var(--teal)">Direct API is not delegation</span><span class="ld">Calling a model provider is different from handing work to another agent.</span></div>
     </div>
     <div style="margin-top:44px;padding:22px 40px;background:var(--gold);color:white;border-radius:14px;display:inline-block;font-size:17px;font-weight:600">Don't block AI — build a framework to evaluate and govern it.</div>
   </div>
@@ -238,7 +263,12 @@
     <a class="share-btn" style="background:var(--blue)" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Frusi.github.io%2Fai-agent-stack" target="_blank" rel="noopener">Share on LinkedIn</a>
     <a class="share-btn" style="background:var(--brown)" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Frusi.github.io%2Fai-agent-stack&text=The%20AI%20Agent%20Stack%20%E2%80%94%20a%20visual%20guide%20from%20models%20to%20multi-agent%20systems" target="_blank" rel="noopener">Share on X</a>
   </div>
-  <p style="font-size:13px;color:var(--brown-muted)">Made with <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> <span style="color:var(--coral)">&hearts;</span></p>
+  <div class="footer-credit">
+    <span>Made with</span>
+    <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+    <span class="footer-plus">+</span>
+    <a href="https://openai.com/codex/" target="_blank" rel="noopener">Codex</a>
+  </div>
 </div>
 
 <script src="diagram.js"></script>

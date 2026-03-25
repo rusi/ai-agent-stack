@@ -21,6 +21,7 @@
     '  <linearGradient id="gContext" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF3E0"/><stop offset="100%" stop-color="#F3E4C0"/></linearGradient>',
     '  <linearGradient id="gAgents" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF3E0"/><stop offset="100%" stop-color="#F0DDB8"/></linearGradient>',
     '  <linearGradient id="gSkill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F8E8EE"/><stop offset="100%" stop-color="#EACCD8"/></linearGradient>',
+    '  <linearGradient id="gGuard" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF4EA"/><stop offset="100%" stop-color="#F4D7C3"/></linearGradient>',
     '  <marker id="arrBlue" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="9" markerHeight="7" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A7FBF"/></marker>',
     '  <marker id="arrBrown" viewBox="0 0 10 7" refX="1" refY="3.5" markerWidth="9" markerHeight="7" orient="auto"><polygon points="10 0,0 3.5,10 7" fill="#9C8E80"/></marker>',
     '  <marker id="arrGreen" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="9" markerHeight="7" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E9E6E"/></marker>',
@@ -32,7 +33,8 @@
     '</defs>',
 
     // Background
-    '<rect width="800" height="730" fill="white" rx="20"/>',
+    '<rect width="800" height="730" fill="#FFFDF9" rx="20"/>',
+    '<rect x="14" y="14" width="772" height="702" fill="none" stroke="#F7EDE0" stroke-width="28" rx="28"/>',
     '<rect x="1" y="1" width="798" height="728" fill="none" stroke="#F0E0CC" stroke-width="1.5" rx="20"/>',
 
     // ── L0: User + Model (always visible) ──
@@ -40,17 +42,18 @@
     '  <rect x="20" y="285" width="125" height="82" rx="16" fill="url(#gUser)" stroke="#E8A87C" stroke-width="2" filter="url(#shadow)"/>',
     '  <text x="82" y="316" text-anchor="middle" font-size="16" fill="#3D3024" font-weight="700">You</text>',
     '  <text x="82" y="336" text-anchor="middle" font-size="11" fill="#9C8E80">(the user)</text>',
-    '  <rect x="615" y="218" width="170" height="148" rx="18" fill="url(#gModel)" stroke="#4A7FBF" stroke-width="2.5" filter="url(#shadowMd)"/>',
+    '  <rect x="606" y="210" width="178" height="162" rx="18" fill="url(#gModel)" stroke="#4A7FBF" stroke-width="2.5" filter="url(#shadowMd)"/>',
     '  <text x="700" y="264" text-anchor="middle" font-size="20" fill="#4A7FBF" font-weight="700">Model</text>',
     '  <text x="700" y="284" text-anchor="middle" font-size="12" fill="#6B5E50">(LLM)</text>',
     '  <text x="700" y="310" text-anchor="middle" font-size="11" fill="#9C8E80">Claude, GPT,</text>',
     '  <text x="700" y="326" text-anchor="middle" font-size="11" fill="#9C8E80">Gemini, Llama</text>',
-    '  <text x="700" y="354" text-anchor="middle" font-size="10" fill="#4A7FBF" font-weight="600">predicts next token</text>',
+    '  <text x="700" y="350" text-anchor="middle" font-size="10" fill="#4A7FBF" font-weight="600">predicts next token</text>',
+    '  <text x="700" y="366" text-anchor="middle" font-size="10" fill="#6B5E50">no tools inside the model</text>',
     '</g>',
 
     // ── L1: Basic chat arrows (neutral reply — no green) ──
     '<g class="layer" id="L1">',
-    '  <path d="M145,308 Q400,274 611,278" fill="none" stroke="#C8DCF0" stroke-width="2.5" marker-end="url(#arrBlue)"/>',
+    '  <path d="M145,308 Q392,266 603,276" fill="none" stroke="#C8DCF0" stroke-width="2.5" marker-end="url(#arrBlue)"/>',
     '  <rect x="250" y="266" width="200" height="22" rx="8" fill="white" filter="url(#shadow)"/>',
     '  <text x="350" y="281" text-anchor="middle" font-size="11" fill="#6B5E50" font-style="italic">&quot;What is the capital of France?&quot;</text>',
     '  <path d="M611,322 Q400,354 145,332" fill="none" stroke="#F0E0CC" stroke-width="2.5" marker-end="url(#arrBrown)"/>',
@@ -95,9 +98,11 @@
     '<g class="layer" id="L5">',
     '  <rect x="230" y="330" width="240" height="40" fill="white"/>',
     // Agent boundary — fill=none so earlier layers show through
-    '  <rect x="182" y="30" width="408" height="570" rx="18" fill="none" stroke="#9C8E80" stroke-width="2" stroke-dasharray="10,6"/>',
+    '  <rect x="176" y="26" width="420" height="586" rx="20" fill="none" stroke="#9C8E80" stroke-width="2" stroke-dasharray="10,6"/>',
     '  <rect x="290" y="18" width="192" height="24" rx="8" fill="white" stroke="#9C8E80" stroke-width="1.5"/>',
     '  <text x="386" y="34" text-anchor="middle" font-size="11" fill="#6B5E50" font-weight="700">AGENT APPLICATION</text>',
+    '  <rect x="620" y="176" width="118" height="24" rx="8" fill="white" stroke="#4A7FBF" stroke-width="1.2" filter="url(#shadow)"/>',
+    '  <text x="679" y="192" text-anchor="middle" font-size="10" fill="#4A7FBF" font-weight="700">MODEL API</text>',
     // Tool Executor
     '  <rect x="250" y="405" width="240" height="82" rx="16" fill="url(#gExec)" stroke="#5E9E6E" stroke-width="2" filter="url(#shadowMd)"/>',
     '  <text x="370" y="432" text-anchor="middle" font-size="13" fill="#5E9E6E" font-weight="700">TOOL EXECUTOR</text>',
@@ -105,7 +110,7 @@
     '  <rect x="300" y="462" width="140" height="20" rx="7" fill="white" stroke="#5E9E6E" stroke-width="1"/>',
     '  <text x="370" y="476" text-anchor="middle" font-size="10" fill="#5E9E6E" font-family="\'JetBrains Mono\',monospace">get_weather(&quot;Tokyo&quot;)</text>',
     // Model → Executor (tool call)
-    '  <path d="M700,366 L700,395 Q700,408 686,408 L493,408" fill="none" stroke="#4A7FBF" stroke-width="2" marker-end="url(#arrBlue)"/>',
+    '  <path d="M700,372 L700,395 Q700,408 686,408 L493,408" fill="none" stroke="#4A7FBF" stroke-width="2" marker-end="url(#arrBlue)"/>',
     '  <text x="714" y="390" font-size="10" fill="#4A7FBF" font-weight="600">tool call</text>',
     // Executor → Model (result)
     '  <path d="M493,452 Q620,452 640,420 Q652,400 640,380 L640,370" fill="none" stroke="#5E9E6E" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrGreen)"/>',
@@ -149,10 +154,15 @@
 
     // ── L7: Bash / Terminal ──
     '<g class="layer" id="L7">',
-    '  <rect x="258" y="510" width="162" height="52" rx="12" fill="url(#gBash)" stroke="#D47B4A" stroke-width="2" filter="url(#shadow)"/>',
-    '  <text x="339" y="534" text-anchor="middle" font-size="12" fill="#D47B4A" font-weight="700">BASH / TERMINAL</text>',
-    '  <text x="339" y="550" text-anchor="middle" font-size="10" fill="#9C8E80">shell, files, packages</text>',
-    '  <path d="M365,487 L348,507" fill="none" stroke="#D47B4A" stroke-width="1.5" marker-end="url(#arrOrange)"/>',
+    '  <rect x="236" y="510" width="178" height="56" rx="12" fill="url(#gBash)" stroke="#D47B4A" stroke-width="2" filter="url(#shadow)"/>',
+    '  <text x="325" y="535" text-anchor="middle" font-size="12" fill="#D47B4A" font-weight="700">BASH / TERMINAL</text>',
+    '  <text x="325" y="552" text-anchor="middle" font-size="10" fill="#9C8E80">shell, files, packages</text>',
+    '  <rect x="430" y="510" width="146" height="56" rx="12" fill="url(#gGuard)" stroke="#D47B4A" stroke-width="2" filter="url(#shadow)"/>',
+    '  <text x="503" y="533" text-anchor="middle" font-size="12" fill="#D47B4A" font-weight="700">PERMISSIONS</text>',
+    '  <text x="503" y="550" text-anchor="middle" font-size="10" fill="#6B5E50">sandbox • approvals</text>',
+    '  <path d="M365,487 L332,507" fill="none" stroke="#D47B4A" stroke-width="1.5" marker-end="url(#arrOrange)"/>',
+    '  <path d="M395,487 L470,507" fill="none" stroke="#D47B4A" stroke-width="1.5" marker-end="url(#arrOrange)"/>',
+    '  <path d="M576,538 Q610,538 622,498 Q632,466 620,445" fill="none" stroke="#D47B4A" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrOrange)"/>',
     '</g>',
 
     // ── L8: Agentic Loop ──
