@@ -104,54 +104,70 @@
     '</g>',
 
     '<g class="layer" id="L2c">',
-    '  <rect x="930" y="86" width="280" height="192" rx="28" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="3" stroke-dasharray="10,8" filter="url(#shadow)"/>',
+    // Context Assembly with {mode, format} (runtime config)
+    '  <rect x="360" y="148" width="454" height="156" rx="24" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2" stroke-dasharray="10,8" opacity="0.72"/>',
+    '  <text x="587" y="176" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="var(--amber)">CONTEXT ASSEMBLY</text>',
+    '  <text x="587" y="198" text-anchor="middle" font-size="12" fill="var(--text-muted)">assembles prompt before sending to model</text>',
+    '  <text x="587" y="224" text-anchor="middle" font-size="11" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">{ mode: "tool-call", format: "json" }</text>',
+    '  <path d="M814,230 L922,230" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    // Context Window above Model (simplified — no mode/format)
+    '  <rect x="930" y="86" width="280" height="172" rx="28" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="3" stroke-dasharray="10,8" filter="url(#shadow)"/>',
     '  <text x="1070" y="126" text-anchor="middle" font-size="18" font-weight="800" letter-spacing="2" fill="var(--amber)">CONTEXT WINDOW</text>',
     '  <text x="1070" y="156" text-anchor="middle" font-size="13" fill="var(--text-muted)">system prompt, history, state</text>',
-    '  <text x="1070" y="190" text-anchor="middle" font-size="12" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">{ mode: "tool-call" }</text>',
-    '  <text x="1070" y="216" text-anchor="middle" font-size="12" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">{ format: "json" }</text>',
-    '  <text x="1070" y="248" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">+ conversation history</text>',
-    '  <path d="M1070,278 L1070,318" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    '  <text x="1070" y="186" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">+ conversation history</text>',
+    '  <path d="M1070,258 L1070,318" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    // Engine → Model arrow ②
     '  <path d="M758,464 L954,464" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
     pill(856, 440, 190, 'blue'),
     '</g>',
 
-    // --- Step 3: Tool call flow (context assembly + tool_call + tool_result + response) ---
+    // --- Step 2d: MCP introduction ---
 
-    '<g class="layer" id="L3">',
-    '  <rect x="360" y="148" width="454" height="142" rx="24" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2" stroke-dasharray="10,8" opacity="0.72"/>',
-    '  <text x="587" y="178" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="var(--amber)">CONTEXT ASSEMBLY</text>',
-    '  <text x="587" y="202" text-anchor="middle" font-size="12" fill="var(--text-muted)">assembles prompt before sending to model</text>',
-    '  <path d="M814,220 L922,220" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
-    pill(870, 220, 130, 'amber'),
-
-    codeBubble(998, 684, 'weather("Boston")', 'var(--blue)', 204),
-    '  <text x="998" y="658" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)" letter-spacing="1">TOOL_CALL</text>',
-    '  <path d="M1120,584 L1120,642 L1100,642" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
-    pill(1120, 614, 210, 'blue'),
-
-    codeBubble(588, 614, '{ temp: 42, unit: "F", condition: "rain" }', 'var(--green)', 376),
-    '  <text x="588" y="590" text-anchor="middle" font-size="10" font-weight="700" fill="var(--green)" letter-spacing="1">TOOL_RESULT</text>',
-    pill(588, 640, 220, 'green'),
-
-    '  <path d="M776,614 L872,614 L872,432 L954,432" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
-    pill(872, 522, 230, 'green'),
-
-    bubble(284, 536, '42 \u00B0F and raining in Boston.', 'var(--green)', 236),
-    '  <path d="M418,520 L270,520" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
-    pill(344, 520, 240, 'green'),
-    '</g>',
-
-    '<g class="layer" id="L4">',
+    '<g class="layer" id="L2d">',
+    // MCP Servers box (bottom-left)
     '  <rect x="60" y="694" width="230" height="118" rx="26" fill="var(--purple-bg)" stroke="var(--purple)" stroke-width="4" filter="url(#shadow)"/>',
     '  <text x="175" y="748" text-anchor="middle" font-size="20" font-weight="800" fill="var(--purple)">MCP Servers</text>',
-    '  <text x="175" y="780" text-anchor="middle" font-size="12" fill="var(--text-muted)">GitHub, Jira, databases</text>',
-    '  <path d="M418,602 L322,602 L322,753 L300,753" fill="none" stroke="var(--purple)" stroke-width="3" marker-end="url(#arrPurple)"/>',
-    pill(322, 676, 150, 'purple'),
-    '  <rect x="388" y="212" width="176" height="54" rx="12" fill="var(--card-bg)" stroke="var(--purple)" stroke-width="2" opacity="0.88"/>',
-    '  <text x="476" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
-    '  <text x="476" y="246" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, humidity}</text>',
-    '  <text x="476" y="260" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail() \u2192 {subject, body}</text>',
-    pill(396, 212, 160, 'purple'),
+    '  <text x="175" y="780" text-anchor="middle" font-size="12" fill="var(--text-muted)">GitHub, Jira, databases, Gmail</text>',
+    // MCP Tool Schemas inside Context Assembly
+    '  <rect x="388" y="244" width="176" height="54" rx="12" fill="var(--card-bg)" stroke="var(--purple)" stroke-width="2" opacity="0.88"/>',
+    '  <text x="476" y="262" text-anchor="middle" font-size="10" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
+    '  <text x="476" y="278" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, forecast}</text>',
+    '  <text x="476" y="292" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail(id) \u2192 {subject, body}</text>',
+    pill(396, 244, 160, 'purple'),
+    '</g>',
+
+    // --- Step 3 layers: Tool call flow ---
+
+    // 3a: Model returns tool_call → Engine (straight line below ②)
+    '<g class="layer" id="L3a">',
+    '  <text x="856" y="494" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)" letter-spacing="1">TOOL_CALL</text>',
+    codeBubble(856, 518, 'weather("Boston")', 'var(--blue)', 200),
+    '  <path d="M954,504 L758,504" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(856, 504, 210, 'blue'),
+    '</g>',
+
+    // 3b: Engine → MCP call + result (④)
+    '<g class="layer" id="L3b">',
+    // Engine → MCP (call out)
+    '  <path d="M480,658 L330,658 L330,730 L290,730" fill="none" stroke="var(--purple)" stroke-width="3" marker-end="url(#arrPurple)"/>',
+    pill(330, 694, 250, 'purple'),
+    // MCP → Engine (result back, dashed)
+    '  <path d="M290,770 L360,770 L360,650 L480,650" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
+    '</g>',
+
+    // 3c: Result → Model (⑤)
+    '<g class="layer" id="L3c">',
+    codeBubble(856, 560, '{ temp: 42, forecast: "rain" }', 'var(--green)', 260),
+    '  <text x="856" y="540" text-anchor="middle" font-size="10" font-weight="700" fill="var(--green)" letter-spacing="1">TOOL_RESULT</text>',
+    '  <path d="M758,580 L954,580" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
+    pill(856, 580, 230, 'green'),
+    '</g>',
+
+    // 3d: Final answer → User (⑥)
+    '<g class="layer" id="L3d">',
+    bubble(284, 560, '42 \u00B0F and raining in Boston.', 'var(--green)', 236),
+    '  <path d="M418,544 L270,544" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    pill(344, 544, 240, 'green'),
     '</g>',
 
     '<g class="layer" id="L5">',
