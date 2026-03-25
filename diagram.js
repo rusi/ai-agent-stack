@@ -58,7 +58,7 @@
     '  <rect x="50" y="400" width="200" height="260" rx="28" fill="var(--card-bg)" stroke="var(--border-color)" stroke-width="3" filter="url(#shadow)"/>',
     '  <text x="150" y="458" text-anchor="middle" font-size="20" font-weight="800" fill="var(--text-primary)">The User</text>',
     '  <text x="150" y="482" text-anchor="middle" font-size="14" fill="var(--text-muted)">Query / Intent</text>',
-    '  <rect x="970" y="400" width="230" height="260" rx="42" fill="url(#gModel)" stroke="var(--blue)" stroke-width="4" filter="url(#shadow)"/>',
+    '  <rect x="970" y="400" width="230" height="340" rx="42" fill="url(#gModel)" stroke="var(--blue)" stroke-width="4" filter="url(#shadow)"/>',
     '  <text x="1085" y="468" text-anchor="middle" font-size="34" font-weight="800" fill="var(--blue)">Model</text>',
     '  <text x="1085" y="500" text-anchor="middle" font-size="16" fill="var(--text-muted)">LLM / inference engine</text>',
     '  <line x1="1010" y1="538" x2="1160" y2="538" stroke="var(--blue)" stroke-width="1.4" opacity="0.22"/>',
@@ -96,24 +96,26 @@
     pill(340, 470, 1, 'blue'),
     '</g>',
 
-    // ═══ L2c · Context Assembly + Context Window (aligned tops) ═══
+    // ═══ L2c · Context Assembly + Context Window — STRUCTURAL (boxes only) ═══
     '<g class="layer" id="L2c">',
-    // Context Assembly (inside runtime) — taller for bigger text
     '  <rect x="340" y="126" width="494" height="210" rx="26" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2" stroke-dasharray="10,8" opacity="0.72"/>',
     '  <text x="587" y="158" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="2" fill="var(--amber)">CONTEXT ASSEMBLY</text>',
     '  <text x="587" y="184" text-anchor="middle" font-size="15" fill="var(--text-muted)">assembles prompt before sending to model</text>',
     '  <text x="587" y="214" text-anchor="middle" font-size="13" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">{ mode: "tool-call", format: "json" }</text>',
-    '  <path d="M834,200 L930,200" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
-    // Context Window (aligned top with CA) — taller
     '  <rect x="930" y="126" width="280" height="210" rx="28" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="3" stroke-dasharray="10,8" filter="url(#shadow)"/>',
     '  <text x="1070" y="164" text-anchor="middle" font-size="20" font-weight="800" letter-spacing="2" fill="var(--amber)">CONTEXT WINDOW</text>',
     '  <text x="1070" y="196" text-anchor="middle" font-size="16" fill="var(--text-muted)">system prompt, history, state</text>',
     '  <text x="1070" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="var(--amber)">+ conversation history</text>',
+    '</g>',
+
+    // ═══ L2cf · Context FLOW (arrows + pills for step 2) ═══
+    '<g class="layer" id="L2cf">',
+    '  <path d="M834,200 L930,200" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
     '  <path d="M1070,336 L1070,390" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
     pill(1082, 363, 2, 'amber'),
-    // Engine → Model (context sent, part of ② flow — no separate pill)
     '  <path d="M730,420 L970,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
     pill(850, 420, 2, 'blue'),
+    pill(352, 278, 3, 'purple'),
     '</g>',
 
     // ═══ L2d · MCP ② + Tool Schemas + Engine→Model ③ ═══
@@ -128,7 +130,6 @@
     '  <text x="478" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
     '  <text x="478" y="284" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, forecast}</text>',
     '  <text x="478" y="304" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail(id) \u2192 {subject, body}</text>',
-    pill(352, 278, 3, 'purple'),
     '</g>',
 
     // ═══ L3a · tool_call Model→Engine ④  (y=480) ═══
@@ -162,38 +163,81 @@
     bubble(340, 606, '42 \u00B0F and raining in Boston.', 'var(--green)', 200),
     '</g>',
 
-    // ═══ L5 · Instructions ═══
-    '<g class="layer" id="L5">',
+    // ═══ L5a · Instructions border ═══
+    '<g class="layer" id="L5a">',
     '  <rect x="42" y="86" width="250" height="256" rx="26" fill="none" stroke="var(--amber)" stroke-width="2" stroke-dasharray="14,10" opacity="0.5"/>',
     '  <text x="167" y="116" text-anchor="middle" font-size="13" font-weight="800" letter-spacing="2" fill="var(--amber)">INSTRUCTIONS</text>',
-    '  <rect x="66" y="138" width="200" height="88" rx="22" fill="var(--card-bg)" stroke="var(--amber)" stroke-width="3" filter="url(#shadow)"/>',
-    '  <text x="166" y="182" text-anchor="middle" font-size="18" font-weight="800" fill="var(--amber)">AGENTS.md</text>',
-    '  <text x="166" y="208" text-anchor="middle" font-size="11" fill="var(--text-light)">identity &amp; rules</text>',
-    '  <path d="M266,182 L330,182" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrAmber)"/>',
-    pill(302, 182, 8, 'amber'),
     '</g>',
 
-    // ═══ L6 · SKILL.md ═══
+    // ═══ L5b · AGENTS.md ═══
+    '<g class="layer" id="L5b">',
+    '  <rect x="66" y="138" width="200" height="88" rx="22" fill="var(--card-bg)" stroke="var(--amber)" stroke-width="3" filter="url(#shadow)"/>',
+    '  <text x="166" y="178" text-anchor="middle" font-size="18" font-weight="800" fill="var(--amber)">AGENTS.md</text>',
+    '  <text x="166" y="200" text-anchor="middle" font-size="11" fill="var(--text-light)">identity &amp; rules</text>',
+    '  <path d="M266,178 L330,178" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrAmber)"/>',
+    pill(290, 178, 1, 'amber'),
+    '</g>',
+
+    // ═══ L6 · SKILL.md + Registry ═══
     '<g class="layer" id="L6">',
     '  <rect x="66" y="248" width="200" height="80" rx="22" fill="var(--rose-bg)" stroke="var(--rose)" stroke-width="3" filter="url(#shadow)"/>',
-    '  <text x="166" y="290" text-anchor="middle" font-size="18" font-weight="800" fill="var(--rose)">SKILL.md</text>',
-    '  <text x="166" y="314" text-anchor="middle" font-size="11" fill="var(--text-light)">loaded via tool call</text>',
-    '  <path d="M266,288 C310,288 324,260 360,248" fill="none" stroke="var(--rose)" stroke-width="2.5" stroke-dasharray="6,5" marker-end="url(#arrRose)"/>',
-    pill(314, 270, 9, 'rose'),
-    '  <rect x="614" y="240" width="190" height="64" rx="12" fill="var(--card-bg)" stroke="var(--rose)" stroke-width="2" opacity="0.88"/>',
-    '  <text x="709" y="260" text-anchor="middle" font-size="11" font-weight="700" fill="var(--rose)" letter-spacing="1">SKILL REGISTRY</text>',
-    '  <text x="709" y="278" text-anchor="middle" font-size="10.5" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/commit  /review-pr</text>',
-    '  <text x="709" y="296" text-anchor="middle" font-size="10.5" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/test    /deploy</text>',
-    pill(600, 270, 10, 'rose'),
+    '  <text x="166" y="286" text-anchor="middle" font-size="18" font-weight="800" fill="var(--rose)">SKILL.md</text>',
+    '  <text x="166" y="308" text-anchor="middle" font-size="11" fill="var(--text-light)">loaded via tool call</text>',
+    '  <path d="M266,288 330,288" fill="none" stroke="var(--rose)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrRose)"/>',
+    pill(290, 270, 2, 'rose'),
+    '  <rect x="614" y="242" width="190" height="82" rx="12" fill="var(--card-bg)" stroke="var(--rose)" stroke-width="2" opacity="0.88"/>',
+    '  <text x="709" y="264" text-anchor="middle" font-size="12" font-weight="700" fill="var(--rose)" letter-spacing="1">SKILL REGISTRY</text>',
+    '  <text x="709" y="284" text-anchor="middle" font-size="11" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/commit  /review-pr</text>',
+    '  <text x="709" y="304" text-anchor="middle" font-size="11" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/test    /deploy</text>',
     '</g>',
 
-    // ═══ L7 · Bash / Shell ═══
+    // ═══ L7 · Bash / Shell (inside Engine box) ═══
     '<g class="layer" id="L7">',
-    '  <rect x="472" y="850" width="232" height="80" rx="26" fill="var(--card-bg)" stroke="var(--orange)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="588" y="886" text-anchor="middle" font-size="20" font-weight="800" fill="var(--orange)">BASH / SHELL</text>',
-    '  <text x="588" y="910" text-anchor="middle" font-size="12" fill="var(--text-muted)">files, tests, commands</text>',
-    '  <path d="M580,820 L580,840" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
-    pill(592, 830, 11, 'orange'),
+    '  <rect x="462" y="720" width="236" height="70" rx="20" fill="var(--card-bg)" stroke="var(--orange)" stroke-width="3" filter="url(#shadow)"/>',
+    '  <text x="580" y="750" text-anchor="middle" font-size="17" font-weight="800" fill="var(--orange)">BASH / SHELL</text>',
+    '  <text x="580" y="770" text-anchor="middle" font-size="11" fill="var(--text-muted)">files, tests, commands</text>',
+    '</g>',
+
+    // ═══ Step 3 flow layers ═══
+
+    // L3e · "Run my tests" User → Engine ④ — arrow above, text below
+    '<g class="layer" id="L3e">',
+    '  <path d="M250,420 L430,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(340, 420, 3, 'blue'),
+    bubble(340, 452, 'Run my tests', 'var(--blue)', 160),
+    // Context arrows (redrawn for step 3 flow) with ③ pills
+    '  <path d="M834,200 L930,200" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    pill(882, 200, 3, 'amber'),
+    '  <path d="M1070,336 L1070,390" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    '  <path d="M730,420 L970,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(850, 420, 3, 'blue'),
+    '</g>',
+
+    // L3f · Model returns tool_call: load_skill("/test") ⑤
+    '<g class="layer" id="L3f">',
+    '  <path d="M970,480 L730,480" fill="none" stroke="var(--rose)" stroke-width="3" marker-end="url(#arrRose)"/>',
+    pill(850, 480, 4, 'rose'),
+    tag(850, 504, 'TOOL_CALL', 'load_skill("/test")', 'rose'),
+    '  <path d="M730,545 L970,545" fill="none" stroke="var(--rose)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrRose)"/>',
+    tag(850, 569, 'SKILL_LOADED', '/test workflow injected', 'rose'),
+    '</g>',
+
+    // L3g · Skill loaded + Model calls bash ⑥
+    '<g class="layer" id="L3g">',
+    '  <path d="M970,600 L730,600" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    pill(850, 600, 5, 'orange'),
+    tag(850, 624, 'TOOL_CALL', 'bash("pytest --cov")', 'orange'),
+    '  <path d="M730,660 L970,660" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrOrange)"/>',
+    tag(850, 684, 'RESULT', '42 passed, 94% coverage', 'orange'),
+    '</g>',
+
+    // L3h · Bash result + answer to user ⑦
+    '<g class="layer" id="L3h">',
+    '  <path d="M970,720 L730,720" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    pill(850, 720, 6, 'green'),
+    // Engine → User (go up to user box bottom at y=650)
+    '  <path d="M430,650 L250,650" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    bubble(340, 618, 'All 42 tests passing, 94% coverage.', 'var(--green)', 270),
     '</g>',
 
     // ═══ L8 · Autonomous Loop ═══
