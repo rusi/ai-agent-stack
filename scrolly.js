@@ -13,6 +13,23 @@
   });
   var progressBars = progress.querySelectorAll('.step-progress-bar');
 
+  function renumberPills() {
+    var visible = [];
+    allLayers.forEach(function (l) {
+      if (l.classList.contains('show')) {
+        var pills = l.querySelectorAll('.dyn-pill');
+        pills.forEach(function (p) { visible.push(p); });
+      }
+    });
+    visible.sort(function (a, b) {
+      return parseInt(a.dataset.order) - parseInt(b.dataset.order);
+    });
+    visible.forEach(function (p, i) {
+      var txt = p.querySelector('text');
+      if (txt) txt.textContent = i + 1;
+    });
+  }
+
   function updateDiagram() {
     var vc = window.innerHeight / 2;
     var active = null;
@@ -44,6 +61,7 @@
         if (l0) l0.classList.add('show');
         prevLayerIds = new Set(['L0']);
       }
+      renumberPills();
       return;
     }
 
@@ -58,12 +76,13 @@
       l.classList.toggle('show', shouldShow);
       if (newIds.has(l.id)) {
         l.classList.remove('highlight');
-        void l.offsetWidth; 
+        void l.offsetWidth;
         l.classList.add('highlight');
       }
     });
 
     prevLayerIds = ids;
+    renumberPills();
   }
 
   var stepObs = new IntersectionObserver(function (entries) {
