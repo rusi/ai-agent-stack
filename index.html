@@ -92,87 +92,87 @@
 
   <div class="scrolly-text">
 
-    <!-- Step 1a: User + Model boxes -->
+    <!-- Step 1.0: User + Model boxes -->
     <div class="text-step" data-layers="L0" id="step1a"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Core</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1.0 &middot; The Core</span></div>
       <h2>The Model (LLM)</h2>
       <p class="desc">A <strong>Large Language Model</strong> is an external API — a remote inference service. On its own it is stateless: no memory, no file access, no ability to act.</p>
       <p class="desc">The model sits on the right. Your code calls it. Everything else you see in this guide is the wrapper around that call.</p>
     </div></div>
 
-    <!-- Step 1b: Question arrow -->
+    <!-- Step 1.1: Question arrow -->
     <div class="text-step" data-layers="L0,L1q" id="step1b"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Prompt</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1.1 &middot; The Prompt</span></div>
       <h2>You Send a Prompt</h2>
       <p class="desc">You send text to the model API <span class="num-pill" style="background:var(--blue)">1</span>. The model receives your question as a sequence of tokens — nothing more.</p>
     </div></div>
 
-    <!-- Step 1c: Response arrow -->
+    <!-- Step 1.2: Response arrow -->
     <div class="text-step" data-layers="L0,L1q,L1r" id="step1c"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Response</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1.2 &middot; The Response</span></div>
       <h2>It Predicts a Reply</h2>
       <p class="desc">The model predicts the most likely next tokens <span class="num-pill" style="background:var(--text-light)">2</span>. Text in, text out. No tools, no memory, no side effects.</p>
       <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Stateless</strong><span style="color:var(--text-muted)">Each API call is independent. The model knows facts, reasoning, and code patterns from training — but it cannot look things up or take actions.</span></div>
     </div></div>
 
-    <!-- Step 2a: Agent Runtime + Execution Engine appear -->
+    <!-- Step 2.0: Agent Runtime + Execution Engine appear -->
     <div class="text-step" data-layers="L0,L2a" id="step2a"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 2 &middot; The Runtime</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 2.0 &middot; The Runtime</span></div>
       <h2>The Agent Runtime</h2>
       <p class="desc">Between you and the model sits the <strong>agent runtime</strong> — a local wrapper that assembles context, calls the model API, and interprets what comes back.</p>
       <p class="desc">At its core is the <strong>Execution Engine</strong>: the component that receives your request and coordinates everything that follows.</p>
     </div></div>
 
-    <!-- Step 2b: User question enters Engine -->
+    <!-- Step 2.1: User question enters Engine → ① -->
     <div class="text-step" data-layers="L0,L2a,L2b" id="step2b"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 2 &middot; The Request</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 2.1 &middot; The Request</span></div>
       <h2>Your Question Enters the Runtime</h2>
       <p class="desc">You ask: &ldquo;What is the weather in Boston?&rdquo; <span class="num-pill" style="background:var(--blue)">1</span>. This time the question goes to the Execution Engine — not directly to the model.</p>
     </div></div>
 
-    <!-- Step 2c: Context Window + Engine → Model -->
+    <!-- Step 2.2: Context Window + Engine → Model → ② -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c" id="step2c"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Context</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2.2 &middot; Context</span></div>
       <h2>Context Window</h2>
-      <p class="desc">The runtime assembles a <strong>context window</strong> — system prompt, conversation history, and configuration — then forwards the question to the model <span class="num-pill" style="background:var(--blue)">2</span>.</p>
+      <p class="desc">The runtime assembles a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">2</span> — system prompt, conversation history, and configuration — then forwards the question to the model <span class="num-pill" style="background:var(--blue)">2</span>.</p>
       <p class="desc">The context window is the lens through which the model sees everything. Change the context, change the behavior.</p>
       <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The same base model becomes an assistant, a reviewer, or a planner — depending on what the runtime puts in the context window.</span></div>
     </div></div>
 
-    <!-- Step 2d: MCP introduction -->
+    <!-- Step 2.3: MCP introduction (no new circle) -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2d" id="step2d"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 2 &middot; Tools</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 2.3 &middot; Tools</span></div>
       <h2>MCP &middot; Universal Plugins</h2>
-      <p class="desc"><strong>MCP servers</strong> expose tool schemas <span class="num-pill" style="background:var(--purple)">3</span> — the runtime injects these into the context assembly so the model knows what tools are available.</p>
+      <p class="desc"><strong>MCP servers</strong> expose tool schemas — the runtime injects these into the context assembly so the model knows what tools are available.</p>
       <p class="desc">This is how the model discovers it <em>can</em> check the weather: the tool signature is right there in the prompt.</p>
       <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">How models discover tools</strong><span style="color:var(--text-muted)">Tool schemas are text in the context. The model reads them and knows what it can ask for. MCP standardizes the format so connectors are portable across products.</span></div>
     </div></div>
 
-    <!-- Step 3a: Model returns tool_call → Engine -->
+    <!-- Step 2.4: Model returns tool_call → Engine → ③ -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2d,L3a" id="step3a"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 3 &middot; Tool Call</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 2.4 &middot; Tool Call</span></div>
       <h2>The Model Asks for Help</h2>
       <p class="desc">The model sees the weather tool in its context. Instead of guessing, it returns a structured <strong>tool call</strong> <span class="num-pill" style="background:var(--blue)">4</span>: <code>weather("Boston")</code>.</p>
       <p class="desc">This is not a function the model runs — it is a request sent back to the Execution Engine.</p>
     </div></div>
 
-    <!-- Step 3b: Engine calls MCP -->
+    <!-- Step 2.5: Engine calls MCP → ④ -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2d,L3a,L3b" id="step3b"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 3 &middot; MCP Call</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">Step 2.5 &middot; MCP Call</span></div>
       <h2>The Engine Calls MCP</h2>
       <p class="desc">The Execution Engine routes the tool call to the right MCP server <span class="num-pill" style="background:var(--purple)">5</span>. The server executes the request and returns real data.</p>
     </div></div>
 
-    <!-- Step 3c: Result → Model -->
+    <!-- Step 2.6: Result → Model → ⑤ -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2d,L3a,L3b,L3c" id="step3c"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; Result</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 2.6 &middot; Result</span></div>
       <h2>Data Back to Model</h2>
       <p class="desc">The tool result <span class="num-pill" style="background:var(--green)">6</span> is fed back into the context and sent to the model. The model now has facts it could not have known from training alone.</p>
     </div></div>
 
-    <!-- Step 3d: Final answer → User -->
+    <!-- Step 2.7: Final answer → User → ⑥ -->
     <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2d,L3a,L3b,L3c,L3d" id="step3d"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 3 &middot; The Answer</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">Step 2.7 &middot; The Answer</span></div>
       <h2>Grounded Response</h2>
       <p class="desc">With real data in context, the model produces a factual answer <span class="num-pill" style="background:var(--green)">7</span> and the runtime delivers it to you.</p>
       <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Execution Boundary</strong><span style="color:var(--text-muted)">The model decides <em>what</em> to do. The engine actually does it — locally, on your machine — then feeds the result back. This is where a chat UI becomes an agent.</span></div>

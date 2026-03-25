@@ -14,20 +14,7 @@
   var progressBars = progress.querySelectorAll('.step-progress-bar');
 
   function renumberPills() {
-    var visible = [];
-    allLayers.forEach(function (l) {
-      if (l.classList.contains('show')) {
-        var pills = l.querySelectorAll('.dyn-pill');
-        pills.forEach(function (p) { visible.push(p); });
-      }
-    });
-    visible.sort(function (a, b) {
-      return parseInt(a.dataset.order) - parseInt(b.dataset.order);
-    });
-    visible.forEach(function (p, i) {
-      var txt = p.querySelector('text');
-      if (txt) txt.textContent = i + 1;
-    });
+    // Pills now self-label via data-label — no auto-renumbering needed
   }
 
   function updateDiagram() {
