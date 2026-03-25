@@ -67,11 +67,11 @@
 
     '<g class="layer show" id="L0">',
     panel(56, 398, 212, 132, 28, 'var(--card-bg)', 'var(--border-color)', 'The User', 'Query / Intent', 'var(--text-primary)', 18, 12),
-    '  <rect x="964" y="332" width="246" height="252" rx="42" fill="url(#gModel)" stroke="var(--blue)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="1087" y="432" text-anchor="middle" font-size="34" font-weight="800" fill="var(--blue)">Model</text>',
-    '  <text x="1087" y="472" text-anchor="middle" font-size="15" fill="var(--text-muted)">LLM / inference engine</text>',
-    '  <line x1="1014" y1="510" x2="1160" y2="510" stroke="var(--blue)" stroke-width="1.4" opacity="0.22"/>',
-    '  <text x="1087" y="546" text-anchor="middle" font-size="11" letter-spacing="2" font-weight="800" fill="var(--blue)">EXTERNAL API</text>',
+    '  <rect x="964" y="292" width="246" height="370" rx="42" fill="url(#gModel)" stroke="var(--blue)" stroke-width="4" filter="url(#shadow)"/>',
+    '  <text x="1087" y="380" text-anchor="middle" font-size="34" font-weight="800" fill="var(--blue)">Model</text>',
+    '  <text x="1087" y="418" text-anchor="middle" font-size="15" fill="var(--text-muted)">LLM / inference engine</text>',
+    '  <line x1="1014" y1="450" x2="1160" y2="450" stroke="var(--blue)" stroke-width="1.4" opacity="0.22"/>',
+    '  <text x="1087" y="484" text-anchor="middle" font-size="11" letter-spacing="2" font-weight="800" fill="var(--blue)">EXTERNAL API</text>',
     '</g>',
 
     '<g class="layer" id="L1q">',
@@ -126,48 +126,48 @@
     '<g class="layer" id="L2d">',
     // MCP Servers box (bottom-left)
     '  <rect x="60" y="694" width="230" height="118" rx="26" fill="var(--purple-bg)" stroke="var(--purple)" stroke-width="4" filter="url(#shadow)"/>',
-    '  <text x="175" y="748" text-anchor="middle" font-size="20" font-weight="800" fill="var(--purple)">MCP Servers</text>',
-    '  <text x="175" y="780" text-anchor="middle" font-size="12" fill="var(--text-muted)">GitHub, Jira, databases, Gmail</text>',
+    '  <text x="175" y="740" text-anchor="middle" font-size="20" font-weight="800" fill="var(--purple)">MCP Servers</text>',
+    '  <text x="175" y="764" text-anchor="middle" font-size="12" fill="var(--text-muted)">GitHub, Jira, weather, Gmail</text>',
+    '  <text x="175" y="784" text-anchor="middle" font-size="10" fill="var(--text-light)">and more\u2026</text>',
     // MCP Tool Schemas inside Context Assembly
-    '  <rect x="388" y="244" width="176" height="54" rx="12" fill="var(--card-bg)" stroke="var(--purple)" stroke-width="2" opacity="0.88"/>',
-    '  <text x="476" y="262" text-anchor="middle" font-size="10" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
-    '  <text x="476" y="278" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, forecast}</text>',
-    '  <text x="476" y="292" text-anchor="middle" font-size="9.6" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail(id) \u2192 {subject, body}</text>',
-    pill(396, 244, 160, 'purple'),
+    '  <rect x="380" y="240" width="196" height="62" rx="14" fill="var(--card-bg)" stroke="var(--purple)" stroke-width="2" opacity="0.88"/>',
+    '  <text x="478" y="258" text-anchor="middle" font-size="10" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
+    '  <text x="478" y="275" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, forecast}</text>',
+    '  <text x="478" y="292" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail(id) \u2192 {subject, body}</text>',
+    pill(388, 240, 195, 'purple'),
     '</g>',
 
     // --- Step 3 layers: Tool call flow ---
 
     // 3a: Model returns tool_call → Engine (straight line below ②)
     '<g class="layer" id="L3a">',
-    '  <text x="856" y="494" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)" letter-spacing="1">TOOL_CALL</text>',
-    codeBubble(856, 518, 'weather("Boston")', 'var(--blue)', 200),
-    '  <path d="M954,504 L758,504" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
-    pill(856, 504, 210, 'blue'),
+    '  <path d="M954,520 L758,520" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(856, 520, 210, 'blue'),
+    '  <text x="856" y="544" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)" letter-spacing="1">TOOL_CALL</text>',
+    codeBubble(856, 562, 'weather("Boston")', 'var(--blue)', 200),
     '</g>',
 
-    // 3b: Engine → MCP call + result (④)
+    // 3b: Engine ↔ MCP bidirectional call (④)
     '<g class="layer" id="L3b">',
-    // Engine → MCP (call out)
     '  <path d="M480,658 L330,658 L330,730 L290,730" fill="none" stroke="var(--purple)" stroke-width="3" marker-end="url(#arrPurple)"/>',
+    // Reverse arrowhead at Engine end (manual triangle pointing up into Engine)
+    '  <polygon points="480,651 480,665 490,658" fill="var(--purple)"/>',
     pill(330, 694, 250, 'purple'),
-    // MCP → Engine (result back, dashed)
-    '  <path d="M290,770 L360,770 L360,650 L480,650" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
     '</g>',
 
     // 3c: Result → Model (⑤)
     '<g class="layer" id="L3c">',
-    codeBubble(856, 560, '{ temp: 42, forecast: "rain" }', 'var(--green)', 260),
-    '  <text x="856" y="540" text-anchor="middle" font-size="10" font-weight="700" fill="var(--green)" letter-spacing="1">TOOL_RESULT</text>',
-    '  <path d="M758,580 L954,580" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
-    pill(856, 580, 230, 'green'),
+    '  <path d="M758,600 L954,600" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
+    pill(856, 600, 230, 'green'),
+    '  <text x="856" y="622" text-anchor="middle" font-size="10" font-weight="700" fill="var(--green)" letter-spacing="1">TOOL_RESULT</text>',
+    codeBubble(856, 642, '{ temp: 42, forecast: "rain" }', 'var(--green)', 260),
     '</g>',
 
-    // 3d: Final answer → User (⑥)
+    // 3d: Final answer Model → Engine → User (⑥)
     '<g class="layer" id="L3d">',
-    bubble(284, 560, '42 \u00B0F and raining in Boston.', 'var(--green)', 236),
-    '  <path d="M418,544 L270,544" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
-    pill(344, 544, 240, 'green'),
+    '  <path d="M954,640 L588,640 L418,540 L270,540" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    pill(770, 640, 240, 'green'),
+    bubble(344, 520, '42 \u00B0F and raining in Boston.', 'var(--green)', 236),
     '</g>',
 
     '<g class="layer" id="L5">',
