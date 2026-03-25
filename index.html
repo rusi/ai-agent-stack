@@ -92,17 +92,31 @@
 
   <div class="scrolly-text">
 
-    <!-- Step 1: The Model -->
-    <div class="text-step" data-layers="L0,L1" id="step1"><div class="text-step-inner">
+    <!-- Step 1a: User + Model boxes -->
+    <div class="text-step" data-layers="L0" id="step1a"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Core</span></div>
       <h2>The Model (LLM)</h2>
-      <p class="desc">A <strong>Large Language Model</strong> is an external API. You send it a prompt <span class="num-pill" style="background:var(--blue)">1</span> and it predicts the next tokens in its reply <span class="num-pill" style="background:var(--text-light)">2</span>.</p>
-      <p class="desc">On its own, this is a stateless inference call: text in, text out. No memory, no file access, no ability to act. The model sits on the right — a remote service your code calls.</p>
-      <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Remote API</strong><span style="color:var(--text-muted)">The model knows a vast amount from training — facts, reasoning, code patterns — but it cannot look things up or take actions. It is an external service, not your local process.</span></div>
+      <p class="desc">A <strong>Large Language Model</strong> is an external API — a remote inference service. On its own it is stateless: no memory, no file access, no ability to act.</p>
+      <p class="desc">The model sits on the right. Your code calls it. Everything else you see in this guide is the wrapper around that call.</p>
+    </div></div>
+
+    <!-- Step 1b: Question arrow -->
+    <div class="text-step" data-layers="L0,L1q" id="step1b"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Prompt</span></div>
+      <h2>You Send a Prompt</h2>
+      <p class="desc">You send text to the model API <span class="num-pill" style="background:var(--blue)">1</span>. The model receives your question as a sequence of tokens — nothing more.</p>
+    </div></div>
+
+    <!-- Step 1c: Response arrow -->
+    <div class="text-step" data-layers="L0,L1q,L1r" id="step1c"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">Step 1 &middot; The Response</span></div>
+      <h2>It Predicts a Reply</h2>
+      <p class="desc">The model predicts the most likely next tokens <span class="num-pill" style="background:var(--text-light)">2</span>. Text in, text out. No tools, no memory, no side effects.</p>
+      <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Stateless</strong><span style="color:var(--text-muted)">Each API call is independent. The model knows facts, reasoning, and code patterns from training — but it cannot look things up or take actions.</span></div>
     </div></div>
 
     <!-- Step 2: Context Window -->
-    <div class="text-step" data-layers="L0,L1,L2" id="step2"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L1q,L1r,L2" id="step2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">Step 2 &middot; Structure</span></div>
       <h2>Context Window</h2>
       <p class="desc">Every model API call includes a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">1</span> — the system prompt, conversation history, and structured configuration that tells the model how to behave.</p>
