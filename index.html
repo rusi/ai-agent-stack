@@ -324,7 +324,7 @@
     </div></div>
 
     <!-- 5.3: Model deployment options -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models" data-diagram="deployDiagram" id="step5_3"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud" data-diagram="deployDiagram" id="step5_3"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">5.3 &middot; Model Hosting</span></div>
       <h2>Three Places for Models</h2>
       <p class="desc">The model API can run in three places: a <strong>cloud provider</strong> (Claude, GPT, Gemini), a <strong>local model</strong> on your machine (Ollama, llama.cpp), or a <strong>private cloud</strong> (AWS Bedrock, Azure OpenAI).</p>
@@ -333,11 +333,12 @@
     </div></div>
 
     <!-- 5.4: Local MCP servers -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local" data-diagram="deployDiagram" id="step5_4"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud,DL4_mcp_local" data-diagram="deployDiagram" id="step5_4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">5.4 &middot; Local Tools</span></div>
       <h2>MCP on Your Machine</h2>
-      <p class="desc">Local MCP servers run alongside your agent. They connect to <strong>databases</strong>, <strong>GitLab</strong>, internal APIs — services inside your network. Data stays local; only the tool results enter context.</p>
-      <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">Audit Trail</strong><span style="color:var(--text-muted)">Every MCP call is logged locally. You can replay exactly what the agent read, what it wrote, and what tools it called — a full audit trail on your machine.</span></div>
+      <p class="desc">Local MCP servers run alongside your agent. They connect to <strong>databases</strong>, <strong>GitLab</strong>, internal APIs — services inside your network. Data stays local; only tool results enter context.</p>
+      <p class="desc">But &ldquo;local&rdquo; doesn&rsquo;t always mean contained. A <strong>web-search MCP</strong> runs locally but makes Google API calls over the internet. A <strong>Puppeteer MCP</strong> fetches external URLs. The server is local &mdash; the data it touches may not be.</p>
+      <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">Watch the Arrows</strong><span style="color:var(--text-muted)">A local MCP can still call external APIs. &ldquo;Local&rdquo; describes where the server process runs, not where the data goes. Audit the outbound calls, not just the install location.</span></div>
     </div></div>
 
     <!-- 5.5: Cloud MCP servers -->
@@ -348,12 +349,15 @@
       <p class="desc">The MCP protocol standardizes auth and scoping: each server declares what it can do, and the runtime enforces which agents can call which tools.</p>
     </div></div>
 
-    <!-- 5.6: Full deployment picture with governance annotations -->
+    <!-- 5.6: Attack surface evaluation -->
     <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud,DL6_gov" data-diagram="deployDiagram" id="step5_6"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">5.6 &middot; Governance</span></div>
-      <h2>The Complete Boundary Map</h2>
-      <p class="desc">Every arrow that crosses a boundary is a governance decision: <strong>who approves it</strong>, <strong>what gets logged</strong>, and <strong>what happens if it fails</strong>.</p>
-      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Security Checklist</strong><span style="color:var(--text-muted)">Where is the model? Who stores prompt logs? What is the blast radius? Where are the human-in-the-loop checkpoints? These are the questions that matter before adopting agentic tools.</span></div>
+      <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">5.6 &middot; Attack Surface</span></div>
+      <h2>Where Are the Risks?</h2>
+      <p class="desc"><strong style="color:var(--coral)">&loz;1</strong> &mdash; The agent can read <code>.env</code> files, SSH keys, API tokens from your filesystem. Credentials are one tool call away.</p>
+      <p class="desc"><strong style="color:var(--coral)">&loz;2</strong> &mdash; Local MCPs can call external APIs. A &ldquo;local&rdquo; web-search MCP sends queries over the internet. Data crosses your perimeter.</p>
+      <p class="desc"><strong style="color:var(--coral)">&loz;3</strong> &mdash; Remote MCP servers hold your API tokens and receive your data. Third-party services see what you send them.</p>
+      <p class="desc"><strong style="color:var(--coral)">&loz;4</strong> &mdash; Cloud models receive every prompt. Where are logs stored? Is your data used for training? Who has access?</p>
+      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Evaluate Before You Deploy</strong><span style="color:var(--text-muted)">Every numbered risk is a governance decision. Sandboxing, human-in-the-loop approvals, audit logs, and local models are your mitigations.</span></div>
     </div></div>
 
     <!-- 6.0: Transition — hide deployment, show orchestrator -->
