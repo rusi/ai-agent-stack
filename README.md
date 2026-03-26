@@ -1,4 +1,6 @@
-![The AI Agent Stack](demo.gif)
+<p>
+  <img src="demo.gif" alt="The AI Agent Stack" width="720">
+</p>
 
 # The AI Agent Stack
 
