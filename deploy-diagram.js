@@ -108,7 +108,7 @@
   var arrowY = mly + mlh / 2;
 
   container.innerHTML = [
-    '<svg class="diagram-svg" viewBox="0 0 1080 740" id="deployDiagram" preserveAspectRatio="xMidYMid meet">',
+    '<svg class="diagram-svg" viewBox="0 -70 1080 810" id="deployDiagram" preserveAspectRatio="xMidYMid meet">',
     u.defs('d_'),
 
     // ═══ DL0 · Base ═══
@@ -208,34 +208,36 @@
     warnIcon(rcx + rcw + 2, modY + 40, '4'),
     '</g>',
 
-    // ═══ DO1_orch · Orchestrator ═══
+    // ═══ DO1_orch · Orchestrator — spans full agent width, large ═══
     '<g class="layer" id="DO1_orch">',
-    '  <rect x="160" y="14" width="360" height="72" rx="28" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="4" filter="url(#d_shadow)"/>',
-    '  <text x="340" y="48" text-anchor="middle" font-size="28" font-weight="800" fill="var(--teal)">Orchestrator</text>',
-    '  <text x="340" y="68" text-anchor="middle" font-size="14" fill="var(--text-muted)">delegates, collects, re-plans</text>',
-    '  <path d="M240,86 L' + (a1x + aw/2) + ',' + ay + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
-    '  <path d="M340,86 L' + (a2x + aw/2) + ',' + ay + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
-    '  <path d="M440,86 L' + (a3x + aw/2) + ',' + ay + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
+    '  <rect x="' + (a1x - 8) + '" y="-60" width="' + (a3x + aw - a1x + 16) + '" height="80" rx="28" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="4" filter="url(#d_shadow)"/>',
+    '  <text x="' + ((a1x + a3x + aw) / 2) + '" y="-18" text-anchor="middle" font-size="34" font-weight="800" fill="var(--teal)">Orchestrator</text>',
+    '  <text x="' + ((a1x + a3x + aw) / 2) + '" y="6" text-anchor="middle" font-size="16" fill="var(--text-muted)">delegates, collects, re-plans</text>',
+    // Straight vertical arrows to each agent center
+    '  <path d="M' + (a1x + aw/2) + ',20 L' + (a1x + aw/2) + ',' + (ay - 4) + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
+    '  <path d="M' + (a2x + aw/2) + ',20 L' + (a2x + aw/2) + ',' + (ay - 4) + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
+    '  <path d="M' + (a3x + aw/2) + ',20 L' + (a3x + aw/2) + ',' + (ay - 4) + '" fill="none" stroke="var(--teal)" stroke-width="3" marker-end="url(#d_arrTeal)"/>',
+    // Arrow labels — "task" on left side of each arrow
+    '  <text x="' + (a1x + aw/2 - 10) + '" y="' + ((20 + ay) / 2) + '" text-anchor="end" font-size="14" fill="var(--teal)" font-weight="700">task</text>',
+    '  <text x="' + (a2x + aw/2 - 10) + '" y="' + ((20 + ay) / 2) + '" text-anchor="end" font-size="14" fill="var(--teal)" font-weight="700">task</text>',
+    '  <text x="' + (a3x + aw/2 - 10) + '" y="' + ((20 + ay) / 2) + '" text-anchor="end" font-size="14" fill="var(--teal)" font-weight="700">task</text>',
     '</g>',
 
-    // ═══ DO2_roles ═══
+    // ═══ DO2_roles · Colored borders + role pills + colored result labels ═══
     '<g class="layer" id="DO2_roles">',
-    '  <rect x="' + (a1x + 14) + '" y="' + (ay + ah - 20) + '" width="' + (aw - 28) + '" height="36" rx="18" fill="var(--teal)" filter="url(#d_shadow)"/>',
-    '  <text x="' + (a1x + aw/2) + '" y="' + (ay + ah + 4) + '" text-anchor="middle" font-size="15" font-weight="800" fill="white" letter-spacing="1">IMPLEMENTER</text>',
-    '  <rect x="' + (a2x + 14) + '" y="' + (ay + ah - 20) + '" width="' + (aw - 28) + '" height="36" rx="18" fill="var(--blue)" filter="url(#d_shadow)"/>',
-    '  <text x="' + (a2x + aw/2) + '" y="' + (ay + ah + 4) + '" text-anchor="middle" font-size="15" font-weight="800" fill="white" letter-spacing="1">REVIEWER</text>',
-    '  <rect x="' + (a3x + 14) + '" y="' + (ay + ah - 20) + '" width="' + (aw - 28) + '" height="36" rx="18" fill="var(--orange)" filter="url(#d_shadow)"/>',
-    '  <text x="' + (a3x + aw/2) + '" y="' + (ay + ah + 4) + '" text-anchor="middle" font-size="15" font-weight="800" fill="white" letter-spacing="1">TEST RUNNER</text>',
-    '</g>',
-
-    // ═══ DO3_flow ═══
-    '<g class="layer" id="DO3_flow">',
-    '  <path d="M' + (a1x + aw/2 + 20) + ',' + ay + ' L260,86" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#d_arrTeal)" opacity="0.6"/>',
-    '  <path d="M' + (a2x + aw/2 + 20) + ',' + ay + ' L360,86" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#d_arrTeal)" opacity="0.6"/>',
-    '  <path d="M' + (a3x + aw/2 + 20) + ',' + ay + ' L460,86" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#d_arrTeal)" opacity="0.6"/>',
-    '  <text x="' + (a1x + aw/2 - 30) + '" y="' + (ay - 8) + '" font-size="13" fill="var(--teal)" font-weight="600">result</text>',
-    '  <text x="' + (a2x + aw/2 - 30) + '" y="' + (ay - 8) + '" font-size="13" fill="var(--teal)" font-weight="600">review</text>',
-    '  <text x="' + (a3x + aw/2 - 30) + '" y="' + (ay - 8) + '" font-size="13" fill="var(--teal)" font-weight="600">report</text>',
+    // Agent 1 — IMPLEMENTER (teal border + pill)
+    '  <rect x="' + (a1x - 8) + '" y="' + (ay - 8) + '" width="' + (aw + 16) + '" height="' + (ah + 16) + '" rx="24" fill="none" stroke="var(--teal)" stroke-width="3"/>',
+    pillLabel(a1x + aw/2, ay - 8, 'IMPLEMENTER', 'teal', 160),
+    // Agent 2 — REVIEWER (blue border + pill)
+    '  <rect x="' + (a2x - 8) + '" y="' + (ay - 8) + '" width="' + (aw + 16) + '" height="' + (ah + 16) + '" rx="24" fill="none" stroke="var(--blue)" stroke-width="3"/>',
+    pillLabel(a2x + aw/2, ay - 8, 'REVIEWER', 'blue', 140),
+    // Agent 3 — TEST RUNNER (orange border + pill)
+    '  <rect x="' + (a3x - 8) + '" y="' + (ay - 8) + '" width="' + (aw + 16) + '" height="' + (ah + 16) + '" rx="24" fill="none" stroke="var(--orange)" stroke-width="3"/>',
+    pillLabel(a3x + aw/2, ay - 8, 'TEST RUNNER', 'orange', 160),
+    // Colored result labels — right side of arrow, above pill
+    '  <text x="' + (a1x + aw/2 + 10) + '" y="' + ((20 + ay) / 2) + '" font-size="13" fill="var(--teal)" font-weight="700">result</text>',
+    '  <text x="' + (a2x + aw/2 + 10) + '" y="' + ((20 + ay) / 2) + '" font-size="13" fill="var(--blue)" font-weight="700">review</text>',
+    '  <text x="' + (a3x + aw/2 + 10) + '" y="' + ((20 + ay) / 2) + '" font-size="13" fill="var(--orange)" font-weight="700">report</text>',
     '</g>',
 
     '</svg>'
