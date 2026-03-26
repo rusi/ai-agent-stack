@@ -77,13 +77,13 @@
   /* Vibrant Accents for Dark Mode */
   --blue: #60A5FA;
   --blue-bg: rgba(96, 165, 250, 0.15);
-  --blue-light: rgba(96, 165, 250, 0.25);
+  --blue-light: rgba(96, 165, 250, 0.1);
   --green: #4ADE80;
   --green-bg: rgba(74, 222, 128, 0.15);
-  --green-light: rgba(74, 222, 128, 0.25);
+  --green-light: rgba(74, 222, 128, 0.1);
   --purple: #C084FC;
   --purple-bg: rgba(192, 132, 252, 0.15);
-  --purple-light: rgba(192, 132, 252, 0.25);
+  --purple-light: rgba(192, 132, 252, 0.1);
   --orange: #FB923C;
   --orange-bg: rgba(251, 146, 60, 0.15);
   --coral: #F87171;
@@ -92,6 +92,7 @@
   --rose-bg: rgba(244, 114, 182, 0.15);
   --amber: #FBBF24;
   --amber-bg: rgba(251, 191, 36, 0.15);
+  --amber-light: rgba(251, 191, 36, 0.1);
   --teal: #2DD4BF;
   --teal-bg: rgba(45, 212, 191, 0.15);
 }
@@ -304,8 +305,6 @@ body {
 }
 .callout strong { display: block; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; }
 
-/* (Step progress removed — replaced by nav pills) */
-
 /* ======= Diagram ======= */
 .diagram-svg {
   width: 100%; height: 100%;
@@ -517,13 +516,7 @@ body {
 .share-btn.x { background: #000000; }
 [data-theme="dark"] .share-btn.x { background: #24292e; border-color: rgba(255,255,255,0.05); }
 
-/* Refined Dark Mode Gradients */
-[data-theme="dark"] {
-  --blue-light: rgba(96, 165, 250, 0.1);
-  --green-light: rgba(74, 222, 128, 0.1);
-  --amber-light: rgba(251, 191, 36, 0.1);
-  --purple-light: rgba(192, 132, 252, 0.1);
-}
+/* Refined Dark Mode Gradient Overrides (merged into main dark block above) */
 .footer-credit {
   display: inline-flex;
   align-items: center;

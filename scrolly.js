@@ -290,29 +290,29 @@
   // ── Keyboard navigation ──
   document.addEventListener('keydown', function (e) {
     if (!navItems.length) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowRight' && e.key !== 'ArrowUp' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    var current = -1;
+    navItems.forEach(function (item, i) {
+      if (item.navEl.classList.contains('active')) current = i;
+    });
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-      e.preventDefault();
-      var current = -1;
-      navItems.forEach(function (item, i) {
-        if (item.navEl.classList.contains('active')) current = i;
-      });
-      var next = Math.min(current + 1, navItems.length - 1);
-      navItems[next].el.scrollIntoView({ behavior: 'smooth' });
-    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-      e.preventDefault();
-      var current = -1;
-      navItems.forEach(function (item, i) {
-        if (item.navEl.classList.contains('active')) current = i;
-      });
-      var prev = Math.max(current - 1, 0);
-      navItems[prev].el.scrollIntoView({ behavior: 'smooth' });
+      var target = Math.min(current + 1, navItems.length - 1);
+      navItems[target].el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      var target = Math.max(current - 1, 0);
+      navItems[target].el.scrollIntoView({ behavior: 'smooth' });
     }
   });
   // ── Mobile: align SVG content to top ──
-  if (window.innerWidth <= 900) {
+  function applyMobileAspectRatio() {
+    var mobile = window.innerWidth <= 900;
     var mainSvg = document.getElementById('mainDiagram');
     var deploySvg = document.getElementById('deployDiagram');
-    if (mainSvg) mainSvg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
-    if (deploySvg) deploySvg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+    var ratio = mobile ? 'xMidYMin meet' : 'xMidYMid meet';
+    if (mainSvg) mainSvg.setAttribute('preserveAspectRatio', ratio);
+    if (deploySvg) deploySvg.setAttribute('preserveAspectRatio', ratio);
   }
+  applyMobileAspectRatio();
+  window.addEventListener('resize', applyMobileAspectRatio);
 })();

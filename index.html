@@ -21,18 +21,17 @@
 <link rel="stylesheet" href="styles.css"/>
 <script>
   (function() {
-    var theme = localStorage.getItem('agent-stack-theme') || 'auto';
-    function applyTheme(t) {
+    window.applyTheme = function(t) {
       var resolved = t;
       if (t === 'auto') {
         resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
       document.documentElement.setAttribute('data-theme', resolved);
-    }
-    applyTheme(theme);
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    };
+    window.applyTheme(localStorage.getItem('agent-stack-theme') || 'auto');
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
       if (localStorage.getItem('agent-stack-theme') === 'auto') {
-        applyTheme('auto');
+        window.applyTheme('auto');
       }
     });
   })();
@@ -304,7 +303,7 @@
   <div class="scrolly-text">
 
     <!-- 5.0: Orchestration — show orchestrator above agents -->
-    <div class="text-step" data-layers="DL0,DO1_orch" data-diagram="deployDiagram" id="step5_0"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DO1_orch" id="step5_0"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">5.0 &middot; Orchestration</span></div>
       <h2>Multiple Agents, One Goal</h2>
       <p class="desc">So far, one agent, one loop. But real tasks need <strong>coordination</strong>: implement a feature, review the code, run the tests. An <strong>orchestrator</strong> delegates sub-tasks to specialized agents.</p>
@@ -312,7 +311,7 @@
     </div></div>
 
     <!-- 5.1: Roles + coordination (merged) -->
-    <div class="text-step" data-layers="DL0,DO1_orch,DO2_roles" data-diagram="deployDiagram" id="step5_1"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DO1_orch,DO2_roles" id="step5_1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">5.1 &middot; The Swarm Pattern</span></div>
       <h2>Specialized Agents, Coordinated</h2>
       <p class="desc">Each agent gets a different <strong>persona</strong> from its instruction file: one implements features, another reviews code, a third runs tests. Same model, different instructions, different behavior.</p>
@@ -321,14 +320,14 @@
     </div></div>
 
     <!-- 6.0: Deployment — base state, all components visible -->
-    <div class="text-step" data-layers="DL0" data-diagram="deployDiagram" id="step6_0"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0" id="step6_0"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--text-muted)"></span><span style="color:var(--text-light)">6.0 &middot; The Full Picture</span></div>
       <h2>Where Does Everything Run?</h2>
       <p class="desc">Here is the complete picture: multiple <strong>agent runtimes</strong>, each with its own context and tools, talking to <strong>models</strong> and connecting to <strong>MCP servers</strong>. But where does each piece actually live?</p>
     </div></div>
 
     <!-- 6.1: Your Machine boundary drawn -->
-    <div class="text-step" data-layers="DL0,DL1_machine" data-diagram="deployDiagram" id="step6_1"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine" id="step6_1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">6.1 &middot; Your Machine</span></div>
       <h2>The Local Perimeter</h2>
       <p class="desc">The agent CLI, runtimes, and all tool execution happen <strong>on your machine</strong>. Your code, your files, your bash — nothing leaves unless you allow it.</p>
@@ -336,7 +335,7 @@
     </div></div>
 
     <!-- 6.2: Sandbox boundary -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox" data-diagram="deployDiagram" id="step6_2"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox" id="step6_2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">6.2 &middot; Sandboxing</span></div>
       <h2>Isolated Execution</h2>
       <p class="desc">Some agents run in a <strong>sandbox</strong> — a restricted environment with no network access, limited filesystem scope, and controlled permissions. This is governance built into the runtime, not bolted on.</p>
@@ -344,7 +343,7 @@
     </div></div>
 
     <!-- 6.3: Model deployment options -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud" data-diagram="deployDiagram" id="step6_3"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud" id="step6_3"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">6.3 &middot; Model Hosting</span></div>
       <h2>Three Places for Models</h2>
       <p class="desc">The model API can run in three places: a <strong>cloud provider</strong> (Claude, GPT, Gemini), a <strong>local model</strong> on your machine (Ollama, llama.cpp), or a <strong>private cloud</strong> (AWS Bedrock, Azure OpenAI).</p>
@@ -353,7 +352,7 @@
     </div></div>
 
     <!-- 6.4: Local MCP servers -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud,DL4_mcp_local" data-diagram="deployDiagram" id="step6_4"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL3_cloud,DL4_mcp_local" id="step6_4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">6.4 &middot; Local Tools</span></div>
       <h2>MCP on Your Machine</h2>
       <p class="desc">Local MCP servers run alongside your agent. They connect to <strong>databases</strong>, <strong>GitLab</strong>, internal APIs — services inside your network. Data stays local; only tool results enter context.</p>
@@ -362,7 +361,7 @@
     </div></div>
 
     <!-- 6.5: Cloud MCP servers -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud" data-diagram="deployDiagram" id="step6_5"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud" id="step6_5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">6.5 &middot; Cloud Services</span></div>
       <h2>Remote MCP Servers</h2>
       <p class="desc">Some MCP servers are <strong>cloud-hosted</strong> — GitHub, Jira, Slack. Your local agent calls them via API. The connection crosses your perimeter, so <strong>permissions and scoping</strong> matter.</p>
@@ -370,7 +369,7 @@
     </div></div>
 
     <!-- 6.6: Attack surface evaluation -->
-    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud,DL6_gov" data-diagram="deployDiagram" id="step6_6"><div class="text-step-inner">
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud,DL6_gov" id="step6_6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">6.6 &middot; Attack Surface</span></div>
       <h2>Where Are the Risks?</h2>
       <p class="desc"><strong style="color:var(--coral)">&loz;1</strong> &mdash; The agent can read <code>.env</code> files, SSH keys, API tokens from your filesystem. Credentials are one tool call away.</p>
@@ -513,11 +512,7 @@
         b.classList.add('active');
         var t = b.getAttribute('data-theme');
         localStorage.setItem('agent-stack-theme', t);
-        var resolved = t;
-        if (t === 'auto') {
-          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', resolved);
+        window.applyTheme(t);
       });
     });
   })();
