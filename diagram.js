@@ -38,7 +38,7 @@
   // Gaps: User↔Engine 180px, Engine↔Model 240px (center at 850)
 
   container.innerHTML = [
-    '<svg class="diagram-svg" viewBox="0 0 1260 960" id="mainDiagram" preserveAspectRatio="xMidYMid meet">',
+    '<svg class="diagram-svg" viewBox="0 0 1260 1060" id="mainDiagram" preserveAspectRatio="xMidYMid meet">',
     '<defs>',
     '  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.14"/></filter>',
     '  <linearGradient id="gModel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--blue-bg)"/><stop offset="100%" stop-color="var(--blue-light)"/></linearGradient>',
@@ -94,9 +94,9 @@
 
     // ═══ L2b · User → Engine ① ═══
     '<g class="layer" id="L2b">',
-    bubble(340, 438, 'What is the weather in Boston?', 'var(--blue)', 220),
-    '  <path d="M250,470 L430,470" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
-    pill(340, 470, 1, 'blue'),
+    bubble(340, 464, 'What is the weather in Boston?', 'var(--blue)', 220),
+    '  <path d="M250,420 L430,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(340, 420, 1, 'blue'),
     '</g>',
 
     // ═══ L2c · Context Assembly + Context Window — STRUCTURAL (boxes only) ═══
@@ -118,7 +118,6 @@
     pill(1082, 363, 2, 'amber'),
     '  <path d="M730,420 L970,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
     pill(850, 420, 2, 'blue'),
-    pill(352, 278, 3, 'purple'),
     '</g>',
 
     // ═══ L2d · MCP ② + Tool Schemas + Engine→Model ③ ═══
@@ -133,6 +132,11 @@
     '  <text x="478" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="var(--purple)" letter-spacing="1">MCP TOOL SCHEMAS</text>',
     '  <text x="478" y="284" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">weather(city) \u2192 {temp, forecast}</text>',
     '  <text x="478" y="304" text-anchor="middle" font-size="10" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">readEmail(id) \u2192 {subject, body}</text>',
+    '</g>',
+
+    // ═══ L2df · MCP pill (flow, hidden in step 3+) ═══
+    '<g class="layer" id="L2df">',
+    pill(352, 278, 3, 'purple'),
     '</g>',
 
     // ═══ L3a · tool_call Model→Engine ④  (y=480) ═══
@@ -151,9 +155,9 @@
 
     // ═══ L3c · tool_result Engine→Model ⑥  (y=545) ═══
     '<g class="layer" id="L3c">',
-    '  <path d="M730,545 L970,545" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
-    pill(850, 545, 6, 'green'),
-    tag(850, 569, 'TOOL_RESULT', '{ temp: 42, forecast: "rain" }', 'green'),
+    '  <path d="M730,555 L970,555" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
+    pill(850, 555, 6, 'green'),
+    tag(850, 579, 'TOOL_RESULT', '{ temp: 42, forecast: "rain" }', 'green'),
     '</g>',
 
     // ═══ L3d · Final answer ⑦  (y=640) ═══
@@ -172,26 +176,34 @@
     '  <text x="167" y="116" text-anchor="middle" font-size="13" font-weight="800" letter-spacing="2" fill="var(--amber)">INSTRUCTIONS</text>',
     '</g>',
 
-    // ═══ L5b · AGENTS.md ═══
+    // ═══ L5b · AGENTS.md (box only) ═══
     '<g class="layer" id="L5b">',
     '  <rect x="66" y="138" width="200" height="88" rx="22" fill="var(--card-bg)" stroke="var(--amber)" stroke-width="3" filter="url(#shadow)"/>',
     '  <text x="166" y="178" text-anchor="middle" font-size="18" font-weight="800" fill="var(--amber)">AGENTS.md</text>',
     '  <text x="166" y="200" text-anchor="middle" font-size="11" fill="var(--text-light)">identity &amp; rules</text>',
+    '</g>',
+
+    // ═══ L5bf · AGENTS.md arrow + pill ═══
+    '<g class="layer" id="L5bf">',
     '  <path d="M266,178 L330,178" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrAmber)"/>',
     pill(290, 178, 1, 'amber'),
     '</g>',
 
-    // ═══ L6 · SKILL.md + Registry ═══
+    // ═══ L6 · SKILL.md + Registry (boxes only) ═══
     '<g class="layer" id="L6">',
     '  <rect x="66" y="248" width="200" height="80" rx="22" fill="var(--rose-bg)" stroke="var(--rose)" stroke-width="3" filter="url(#shadow)"/>',
     '  <text x="166" y="286" text-anchor="middle" font-size="18" font-weight="800" fill="var(--rose)">SKILL.md</text>',
     '  <text x="166" y="308" text-anchor="middle" font-size="11" fill="var(--text-light)">loaded via tool call</text>',
-    '  <path d="M266,288 330,288" fill="none" stroke="var(--rose)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrRose)"/>',
-    pill(290, 270, 2, 'rose'),
     '  <rect x="614" y="242" width="190" height="82" rx="12" fill="var(--card-bg)" stroke="var(--rose)" stroke-width="2" opacity="0.88"/>',
     '  <text x="709" y="264" text-anchor="middle" font-size="12" font-weight="700" fill="var(--rose)" letter-spacing="1">SKILL REGISTRY</text>',
     '  <text x="709" y="284" text-anchor="middle" font-size="11" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/commit  /review-pr</text>',
     '  <text x="709" y="304" text-anchor="middle" font-size="11" fill="var(--text-muted)" style="font-family:\'JetBrains Mono\',monospace">/test    /deploy</text>',
+    '</g>',
+
+    // ═══ L6f · SKILL.md arrow + pill ═══
+    '<g class="layer" id="L6f">',
+    '  <path d="M266,288 330,288" fill="none" stroke="var(--rose)" stroke-width="3" stroke-dasharray="6,6" marker-end="url(#arrRose)"/>',
+    pill(290, 270, 2, 'rose'),
     '</g>',
 
     // ═══ L7 · Bash / Shell (inside Engine box) ═══
@@ -227,36 +239,116 @@
 
     // L3g · Skill loaded + Model calls bash ⑥
     '<g class="layer" id="L3g">',
-    '  <path d="M970,600 L730,600" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
-    pill(850, 600, 5, 'orange'),
-    tag(850, 624, 'TOOL_CALL', 'bash("pytest --cov")', 'orange'),
-    '  <path d="M730,660 L970,660" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrOrange)"/>',
-    tag(850, 684, 'RESULT', '42 passed, 94% coverage', 'orange'),
+    '  <path d="M970,620 L730,620" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    pill(850, 620, 5, 'orange'),
+    tag(850, 644, 'TOOL_CALL', 'bash("pytest --cov")', 'orange'),
+    '  <path d="M730,685 L970,685" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrOrange)"/>',
+    tag(850, 699, 'RESULT', '42 passed, 94% coverage', 'orange'),
     '</g>',
 
     // L3h · Bash result + answer to user ⑦
     '<g class="layer" id="L3h">',
-    '  <path d="M970,720 L730,720" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
-    pill(850, 720, 6, 'green'),
+    '  <path d="M970,740 L730,740" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    pill(850, 740, 6, 'green'),
     // Engine → User (go up to user box bottom at y=650)
     '  <path d="M430,650 L250,650" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
     bubble(340, 618, 'All 42 tests passing, 94% coverage.', 'var(--green)', 270),
     '</g>',
 
-    // ═══ L8 · Autonomous Loop ═══
+    // ═══ L8 · Autonomous Loop boundary (box only, no arrow) ═══
     '<g class="layer" id="L8">',
-    '  <rect x="300" y="360" width="920" height="520" rx="42" fill="none" stroke="var(--coral)" stroke-width="6" stroke-dasharray="18,14" opacity="0.48"/>',
-    '  <text x="760" y="392" text-anchor="middle" font-size="18" font-weight="900" letter-spacing="4" fill="var(--coral)">AUTONOMOUS LOOP</text>',
-    '  <path d="M1148,440 C1230,520 1230,720 1128,800 C1070,840 548,850 378,830 C302,820 294,740 294,640 C294,540 300,470 350,440" fill="none" stroke="var(--coral)" stroke-width="4" stroke-dasharray="12,10" marker-end="url(#arrCoral)"/>',
-    pill(1218, 600, 12, 'coral'),
-    '  <text x="1010" y="830" text-anchor="middle" font-size="11" font-weight="700" fill="var(--coral)">plan \u2192 act \u2192 observe \u2192 repeat</text>',
+    '  <rect x="300" y="350" width="920" height="620" rx="42" fill="none" stroke="var(--coral)" stroke-width="5" stroke-dasharray="18,14" opacity="0.48"/>',
+    '  <text x="760" y="380" text-anchor="middle" font-size="18" font-weight="900" letter-spacing="4" fill="var(--coral)">AUTONOMOUS LOOP</text>',
+    '  <text x="760" y="956" text-anchor="middle" font-size="22" font-weight="700" fill="var(--coral)">plan \u2192 act \u2192 observe \u2192 repeat</text>',
+    '</g>',
+
+    // ═══ Step 4 flow layers ═══
+
+    // L4q · Question + context arrows (persists all step 4)
+    '<g class="layer" id="L4q">',
+    '  <path d="M250,420 L430,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    pill(340, 420, 1, 'blue'),
+    bubble(340, 452, 'Implement the dashboard', 'var(--blue)', 220),
+    '  <path d="M834,200 L930,200" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    '  <path d="M1070,336 L1070,390" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="7,6" marker-end="url(#arrAmber)"/>',
+    '  <path d="M730,420 L970,420" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrBlue)"/>',
+    '</g>',
+
+    // ── Scrollable arrow zone (clipped, animated translateY) ──
+    // Layers L4a-L4d are nested inside a clipped group for scroll animation.
+    // L4q and L4e sit OUTSIDE the clip (question + final response).
+    '<g>',
+    '  <g id="L4inner">',
+
+    // L4a · Jira MCP call ② (y=476–560)
+    '<g class="layer" id="L4a">',
+    '  <path d="M970,476 L730,476" fill="none" stroke="var(--purple)" stroke-width="3" marker-end="url(#arrPurple)"/>',
+    pill(850, 476, 2, 'purple'),
+    tag(850, 500, 'TOOL_CALL', 'jira("REQ-302")', 'purple'),
+    '  <path d="M730,541 L970,541" fill="none" stroke="var(--purple)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrPurple)"/>',
+    tag(850, 560, 'RESULT', '{title: "Dashboard", specs: ...}', 'purple'),
+    '</g>',
+
+    // L4b · Write files ③ (y=596–672)
+    '<g class="layer" id="L4b">',
+    '  <path d="M970,606 L730,606" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    pill(850, 606, 3, 'orange'),
+    tag(850, 630, 'TOOL_CALL', 'writeFile("index.html")', 'orange'),
+    '  <path d="M970,668 L730,668" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    tag(850, 686, 'TOOL_CALL', 'writeFile("app.js")', 'orange'),
+    '</g>',
+
+    // L4c · Test → fail ④ (y=716–800)
+    '<g class="layer" id="L4c">',
+    '  <path d="M970,736 L730,736" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    pill(850, 736, 4, 'orange'),
+    tag(850, 760, 'TOOL_CALL', 'bash("npm test")', 'orange'),
+    '  <path d="M730,802 L970,802" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrCoral)"/>',
+    tag(850, 820, 'FAIL', '2 tests failed', 'coral'),
+    '</g>',
+
+    // L4d · Fix + retest → pass ⑤ (y=836–960)
+    '<g class="layer" id="L4d">',
+    '  <path d="M970,866 L730,866" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    pill(850, 866, 5, 'orange'),
+    tag(850, 890, 'TOOL_CALL', 'writeFile("app.js") // fix', 'orange'),
+    '  <path d="M970,926 L730,926" fill="none" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrOrange)"/>',
+    tag(850, 940, 'TOOL_CALL', 'bash("npm test")', 'orange'),
+    '  <path d="M730,982 L970,982" fill="none" stroke="var(--green)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrGreen)"/>',
+    tag(850, 1000, 'PASS', 'all 8 tests passing', 'green'),
+    '</g>',
+
+    // L4f · ⑥ Model→Engine arrow only (y=1190, appears at y=640 when offset=-550)
+    '<g class="layer" id="L4f">',
+    pill(850, 1190, 6, 'green'),
+    '  <path d="M970,1190 L730,1190" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    '</g>',
+
+    '  </g>',
+    '</g>',
+
+    // L4a_mcp · MCP arrows (outside clip, shown with L4a)
+    '<g class="layer" id="L4a_mcp">',
+    '  <path d="M430,743 L250,743" fill="none" stroke="var(--purple)" stroke-width="3" marker-end="url(#arrPurple)"/>',
+    '  <path d="M250,763 L430,763" fill="none" stroke="var(--purple)" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrPurple)"/>',
+    '</g>',
+
+    // L4e · Loop indicator + Engine→User result (outside clip, centered between blue arrow y=420 and ⑥ y=640)
+    '<g class="layer" id="L4e">',
+    // Loop indicator — centered at y=530 between blue arrow (420) and ⑥ arrow (640)
+    '  <path d="M780,515 C820,485 900,485 940,515" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="8,5" marker-end="url(#arrCoral)"/>',
+    '  <path d="M940,545 C900,575 820,575 780,545" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="8,5" marker-end="url(#arrCoral)"/>',
+    '  <text x="860" y="535" text-anchor="middle" font-size="12" font-weight="800" fill="var(--coral)">3 iterations</text>',
+    // Engine → User result arrow + bubble (near bottom of User box)
+    '  <path d="M430,640 L250,640" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrGreen)"/>',
+    bubble(340, 608, 'Dashboard implemented. 3 files, 8 tests.', 'var(--green)', 290),
     '</g>',
 
     // ═══ L9 · Multi-Agent ═══
     '<g class="layer" id="L9">',
-    '  <rect x="42" y="898" width="1176" height="50" rx="24" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="3" filter="url(#shadow)"/>',
-    '  <text x="630" y="930" text-anchor="middle" font-size="20" font-weight="900" letter-spacing="3" fill="var(--teal)">MULTI-AGENT ORCHESTRATION</text>',
-    pill(1184, 923, 13, 'teal'),
+    '  <rect x="42" y="998" width="1176" height="50" rx="24" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="3" filter="url(#shadow)"/>',
+    '  <text x="630" y="1030" text-anchor="middle" font-size="20" font-weight="900" letter-spacing="3" fill="var(--teal)">MULTI-AGENT ORCHESTRATION</text>',
+    pill(1184, 1023, 13, 'teal'),
     '</g>',
 
     '</svg>'

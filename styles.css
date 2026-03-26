@@ -304,20 +304,7 @@ body {
 }
 .callout strong { display: block; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; }
 
-/* ======= Step progress ======= */
-.step-progress {
-  position: fixed; left: 32px; top: 50%;
-  transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 8px;
-  z-index: 100; opacity: 0; transition: opacity .5s;
-}
-.step-progress.visible { opacity: 1; }
-.step-progress-bar {
-  width: 4px; height: 24px; border-radius: 4px;
-  background: var(--border-color);
-  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.step-progress-bar.active { background: var(--gold); transform: scaleX(1.8); height: 32px; }
+/* (Step progress removed — replaced by nav pills) */
 
 /* ======= Diagram ======= */
 .diagram-svg {
@@ -336,6 +323,7 @@ body {
 }
 .diagram-svg .layer.show { opacity: 1; }
 .diagram-svg .layer.highlight { animation: layerPulse 1.5s ease-out; }
+/* L4inner transform driven by scroll — no CSS transition needed */
 
 /* ======= Post-scrolly sections ======= */
 .section {
@@ -461,19 +449,46 @@ body {
 .layer-bar .ld { font-size: 14px; color: var(--text-muted); }
 
 .nav-dots {
-  position: fixed; right: 32px; top: 50%;
+  position: fixed; right: 28px; top: 50%;
   transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
   z-index: 100;
 }
 .nav-dot {
-  width: 12px; height: 12px; border-radius: 50%;
+  width: 10px; height: 10px; border-radius: 50%;
   background: var(--border-color); cursor: pointer;
-  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid transparent; padding: 0;
+  flex-shrink: 0;
 }
 .nav-dot:hover { background: var(--gold); transform: scale(1.3); }
-.nav-dot.active { background: var(--gold); transform: scale(1.6); border-color: var(--card-bg); box-shadow: 0 0 10px var(--gold); }
+.nav-dot.active { background: var(--gold); transform: scale(1.4); border-color: var(--card-bg); box-shadow: 0 0 8px rgba(212,145,94,.4); }
+
+/* Fancy nav pills for scrolly step groups */
+.nav-pill {
+  display: flex; flex-direction: column;
+  border-radius: 99px; overflow: hidden;
+  background: var(--border-color);
+  gap: 1px; padding: 1px;
+  flex-shrink: 0;
+}
+.nav-pill-seg {
+  width: 8px; height: 8px;
+  background: var(--border-light);
+  cursor: pointer; border: none; padding: 0;
+  position: relative;
+}
+.nav-pill-seg:first-child { border-radius: 99px 99px 0 0; }
+.nav-pill-seg:last-child { border-radius: 0 0 99px 99px; }
+.nav-pill-seg:only-child { border-radius: 99px; }
+.nav-pill-seg:hover { background: var(--gold); }
+.nav-pill-seg.active {
+  background: var(--gold);
+  height: 14px;
+  box-shadow: 0 0 6px rgba(212,145,94,.5);
+}
+.nav-pill.group-active {
+  box-shadow: 0 0 10px rgba(212,145,94,.25);
+}
 
 /* ======= Footer ======= */
 .footer {
@@ -600,5 +615,5 @@ body {
     gap: 8px;
   }
   .layer-bar .ln { min-width: 0; }
-  .nav-dots, .step-progress { display: none; }
+  .nav-dots { display: none; }
 }
