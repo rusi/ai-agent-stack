@@ -308,4 +308,11 @@
       navItems[prev].el.scrollIntoView({ behavior: 'smooth' });
     }
   });
+  // ── Mobile: align SVG content to top ──
+  if (window.innerWidth <= 900) {
+    var mainSvg = document.getElementById('mainDiagram');
+    var deploySvg = document.getElementById('deployDiagram');
+    if (mainSvg) mainSvg.setAttribute('preserveAspectRatio', 'xMidYMin slice');
+    if (deploySvg) deploySvg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+  }
 })();
