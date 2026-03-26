@@ -312,7 +312,7 @@
   if (window.innerWidth <= 900) {
     var mainSvg = document.getElementById('mainDiagram');
     var deploySvg = document.getElementById('deployDiagram');
-    if (mainSvg) mainSvg.setAttribute('preserveAspectRatio', 'xMidYMin slice');
+    if (mainSvg) mainSvg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
     if (deploySvg) deploySvg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
   }
 })();
