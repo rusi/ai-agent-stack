@@ -344,13 +344,6 @@
     bubble(340, 608, 'Dashboard implemented. 3 files, 8 tests.', 'var(--green)', 290),
     '</g>',
 
-    // ═══ L9 · Multi-Agent ═══
-    '<g class="layer" id="L9">',
-    '  <rect x="42" y="998" width="1176" height="50" rx="24" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="3" filter="url(#shadow)"/>',
-    '  <text x="630" y="1030" text-anchor="middle" font-size="20" font-weight="900" letter-spacing="3" fill="var(--teal)">MULTI-AGENT ORCHESTRATION</text>',
-    pill(1184, 1023, 13, 'teal'),
-    '</g>',
-
     '</svg>'
   ].join('\n');
 })();

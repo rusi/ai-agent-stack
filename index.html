@@ -288,48 +288,101 @@
       <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Same Model, New Behavior</strong><span style="color:var(--text-muted)">The model did not gain new capabilities. The instructions told it to keep going until done. The runtime wrapper handled the re-invocation. The loop is infrastructure, not intelligence.</span></div>
     </div></div>
 
-    <!-- ====== STEP 5: Multi-Agent ====== -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L9" id="step5"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">5.0 &middot; Swarms</span></div>
-      <h2>Orchestration at Scale</h2>
-      <p class="desc">An orchestrator can spawn multiple agent runtimes — each with its own context, tool scope, and model connection. They delegate work, report back, and sometimes run in parallel.</p>
-      <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Delegation</strong><span style="color:var(--text-muted)">Multi-agent systems are composition: many runtimes coordinated, each calling its own model API independently.</span></div>
-    </div></div>
-
   </div>
 </div>
 
 <!-- ====== POST-SCROLLY SECTIONS ====== -->
 
-<section class="section" id="sec-deploy">
-  <div class="section-inner">
-    <div class="step-label"><span class="step-dot" style="background:var(--text-muted)"></span><span style="color:var(--text-light)">Deployment</span></div>
-    <h2 class="section-title">Where Does the Stack Live?</h2>
-    <p class="section-subtitle">Understanding the boundary between your data and the AI provider is critical for enterprise security.</p>
-    <div class="grid-4">
-      <div class="info-card" style="border-top:4px solid var(--green)">
-        <div class="card-mark" style="color:var(--green)">LOCAL RUNTIME</div>
-        <h3 style="color:var(--green)">Your Machine</h3>
-        <div class="items"><div>Agent CLI &amp; Runtime</div><div>Bash &amp; File System</div><div>Local instructions (AGENTS.md)</div><div>Local Tool Execution</div></div>
-      </div>
-      <div class="info-card" style="border-top:4px solid var(--blue)">
-        <div class="card-mark" style="color:var(--blue)">MODEL API</div>
-        <h3 style="color:var(--blue)">Cloud Provider</h3>
-        <div class="items"><div>LLM Inference Engine</div><div>Claude / GPT / Gemini</div><div>Pay-per-token pricing</div><div style="color:var(--coral)">Data leaves your perimeter</div></div>
-      </div>
-      <div class="info-card" style="border-top:4px solid var(--purple)">
-        <div class="card-mark" style="color:var(--purple)">SERVICES</div>
-        <h3 style="color:var(--purple)">Tools &amp; MCP</h3>
-        <div class="items"><div>GitHub, Jira, Salesforce</div><div>Internal APIs &amp; Databases</div><div>MCP Connectors</div><div>Managed Permissions</div></div>
-      </div>
-      <div class="info-card" style="border-top:4px solid var(--orange)">
-        <div class="card-mark" style="color:var(--orange)">GOVERNANCE</div>
-        <h3 style="color:var(--orange)">The Shield</h3>
-        <div class="items"><div>Sandboxing &amp; Network Rules</div><div>Human-in-the-loop Approvals</div><div>Audit Logging</div><div>Risk Boundaries</div></div>
-      </div>
-    </div>
+<!-- ====== SCROLLY 2: DEPLOYMENT + ORCHESTRATION ====== -->
+<div class="scrolly-container" id="scrollyContainer2">
+  <div class="scrolly-diagram" id="deployDiagramContainer">
+    <!-- SVG injected by deploy-diagram.js -->
   </div>
-</section>
+  <div class="scrolly-text">
+
+    <!-- 5.0: Base state — all components visible, no boundaries yet -->
+    <div class="text-step" data-layers="DL0" data-diagram="deployDiagram" id="step5_0"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--text-muted)"></span><span style="color:var(--text-light)">5.0 &middot; The Full Picture</span></div>
+      <h2>Where Does Everything Run?</h2>
+      <p class="desc">Here is the complete picture: multiple <strong>agent runtimes</strong>, each with its own context and tools, talking to <strong>models</strong> and connecting to <strong>MCP servers</strong>. But where does each piece actually live?</p>
+    </div></div>
+
+    <!-- 5.1: Your Machine boundary drawn -->
+    <div class="text-step" data-layers="DL0,DL1_machine" data-diagram="deployDiagram" id="step5_1"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">5.1 &middot; Your Machine</span></div>
+      <h2>The Local Perimeter</h2>
+      <p class="desc">The agent CLI, runtimes, and all tool execution happen <strong>on your machine</strong>. Your code, your files, your bash — nothing leaves unless you allow it.</p>
+      <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Local Execution</strong><span style="color:var(--text-muted)">The runtime reads your files, runs your tests, and writes your code. The model never sees your filesystem directly — only what the runtime sends in context.</span></div>
+    </div></div>
+
+    <!-- 5.2: Sandbox boundary -->
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox" data-diagram="deployDiagram" id="step5_2"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">5.2 &middot; Sandboxing</span></div>
+      <h2>Isolated Execution</h2>
+      <p class="desc">Some agents run in a <strong>sandbox</strong> — a restricted environment with no network access, limited filesystem scope, and controlled permissions. This is governance built into the runtime, not bolted on.</p>
+      <div class="callout" style="background:var(--orange-bg)"><strong style="color:var(--orange)">Blast Radius</strong><span style="color:var(--text-muted)">Sandboxing limits what an agent can break. If it goes off-script, the damage stops at the sandbox boundary. Human-in-the-loop approvals gate anything outside.</span></div>
+    </div></div>
+
+    <!-- 5.3: Model deployment options -->
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models" data-diagram="deployDiagram" id="step5_3"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">5.3 &middot; Model Hosting</span></div>
+      <h2>Three Places for Models</h2>
+      <p class="desc">The model API can run in three places: a <strong>cloud provider</strong> (Claude, GPT, Gemini), a <strong>local model</strong> on your machine (Ollama, llama.cpp), or a <strong>private cloud</strong> (AWS Bedrock, Azure OpenAI).</p>
+      <p class="desc">The runtime doesn&rsquo;t care which — it sends the same API call. What changes is where your prompts go.</p>
+      <div class="callout" style="background:var(--blue-bg)"><strong style="color:var(--blue)">Data Sovereignty</strong><span style="color:var(--text-muted)">Cloud models mean your prompts leave your perimeter. Local or private cloud keeps everything inside your network. Choose based on your security requirements.</span></div>
+    </div></div>
+
+    <!-- 5.4: Local MCP servers -->
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local" data-diagram="deployDiagram" id="step5_4"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">5.4 &middot; Local Tools</span></div>
+      <h2>MCP on Your Machine</h2>
+      <p class="desc">Local MCP servers run alongside your agent. They connect to <strong>databases</strong>, <strong>GitLab</strong>, internal APIs — services inside your network. Data stays local; only the tool results enter context.</p>
+      <div class="callout" style="background:var(--purple-bg)"><strong style="color:var(--purple)">Audit Trail</strong><span style="color:var(--text-muted)">Every MCP call is logged locally. You can replay exactly what the agent read, what it wrote, and what tools it called — a full audit trail on your machine.</span></div>
+    </div></div>
+
+    <!-- 5.5: Cloud MCP servers -->
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud" data-diagram="deployDiagram" id="step5_5"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">5.5 &middot; Cloud Services</span></div>
+      <h2>Remote MCP Servers</h2>
+      <p class="desc">Some MCP servers are <strong>cloud-hosted</strong> — GitHub, Jira, Slack. Your local agent calls them via API. The connection crosses your perimeter, so <strong>permissions and scoping</strong> matter.</p>
+      <p class="desc">The MCP protocol standardizes auth and scoping: each server declares what it can do, and the runtime enforces which agents can call which tools.</p>
+    </div></div>
+
+    <!-- 5.6: Full deployment picture with governance annotations -->
+    <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud,DL6_gov" data-diagram="deployDiagram" id="step5_6"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">5.6 &middot; Governance</span></div>
+      <h2>The Complete Boundary Map</h2>
+      <p class="desc">Every arrow that crosses a boundary is a governance decision: <strong>who approves it</strong>, <strong>what gets logged</strong>, and <strong>what happens if it fails</strong>.</p>
+      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Security Checklist</strong><span style="color:var(--text-muted)">Where is the model? Who stores prompt logs? What is the blast radius? Where are the human-in-the-loop checkpoints? These are the questions that matter before adopting agentic tools.</span></div>
+    </div></div>
+
+    <!-- 6.0: Transition — hide deployment, show orchestrator -->
+    <div class="text-step" data-layers="DL0,DO1_orch" data-diagram="deployDiagram" id="step6_0"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">6.0 &middot; Orchestration</span></div>
+      <h2>Multiple Agents, One Goal</h2>
+      <p class="desc">Strip away the deployment boundaries. What remains: multiple agent runtimes, each with its own context, tools, and model connection. An <strong>orchestrator</strong> coordinates them.</p>
+      <p class="desc">Each agent is still one runtime, one loop, one model call at a time. The orchestrator decides who works on what.</p>
+    </div></div>
+
+    <!-- 6.1: Roles fade in -->
+    <div class="text-step" data-layers="DL0,DO1_orch,DO2_roles" data-diagram="deployDiagram" id="step6_1"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">6.1 &middot; Roles</span></div>
+      <h2>Specialized Agents</h2>
+      <p class="desc">Each agent gets a different <strong>persona</strong> from its instruction file: one implements features, another reviews code, a third runs security checks. Same model, different instructions, different behavior.</p>
+      <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Delegation</strong><span style="color:var(--text-muted)">The orchestrator spawns agents with scoped contexts and worktrees. They work in parallel, report back, and the orchestrator decides when the task is done.</span></div>
+    </div></div>
+
+    <!-- 6.2: Coordination arrows -->
+    <div class="text-step" data-layers="DL0,DO1_orch,DO2_roles,DO3_flow" data-diagram="deployDiagram" id="step6_2"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">6.2 &middot; Coordination</span></div>
+      <h2>The Swarm Pattern</h2>
+      <p class="desc">The orchestrator delegates tasks, collects results, and re-plans. Each sub-agent runs its own autonomous loop — plan, act, observe, repeat — then reports back.</p>
+      <p class="desc">This is composition, not intelligence. Many simple loops coordinated into complex behavior.</p>
+      <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Same Building Blocks</strong><span style="color:var(--text-muted)">A multi-agent system is just more of what you&rsquo;ve already seen: runtimes, contexts, models, and tools. The orchestrator is itself an agent — it just delegates instead of executing.</span></div>
+    </div></div>
+
+  </div>
+</div>
 
 <section class="section" id="sec-products">
   <div class="section-inner">
@@ -470,7 +523,9 @@
     });
   })();
 </script>
+<script src="diagram-utils.js"></script>
 <script src="diagram.js"></script>
+<script src="deploy-diagram.js"></script>
 <script src="scrolly.js"></script>
 </body>
 </html>
