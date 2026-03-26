@@ -431,12 +431,12 @@
         </div>
       </div>
       <div class="info-card">
-        <h3>OpenClaw <span style="font-weight:400;font-size:14px;color:var(--text-muted)">Open Source &middot; Gateway</span></h3>
+        <h3>Copilot <span style="font-weight:400;font-size:14px;color:var(--text-muted)">GitHub &middot; IDE / CLI / Cloud</span></h3>
         <div class="items">
-          <div><strong>Model:</strong> Provider configurable</div>
-          <div><strong>Instructions:</strong> <code>AGENTS.md</code>, <code>SOUL.md</code>, <code>TOOLS.md</code>, and skills</div>
-          <div><strong>Runtime:</strong> A self-hosted gateway that owns channels, sessions, agents, and optional remote nodes.</div>
-          <div><strong>Key Strength:</strong> Strong control plane for multi-agent routing, approvals, and execution across devices.</div>
+          <div><strong>Model:</strong> Multi-model (GPT-5.x, Claude, Gemini) with auto-selection</div>
+          <div><strong>Instructions:</strong> <code>.github/copilot-instructions.md</code> and repo context</div>
+          <div><strong>Runtime:</strong> IDE agent mode, CLI agent, or autonomous cloud agent in sandboxed GitHub Actions.</div>
+          <div><strong>Key Strength:</strong> Platform-native: assign an Issue and get a PR back from a cloud sandbox.</div>
         </div>
       </div>
     </div>
@@ -446,8 +446,8 @@
         OpenCode makes the distinction explicit: you connect provider APIs, choose a model, and its local runtime wraps that model with prompts, tools, and execution logic. The agent is the wrapper, not the raw model.
       </div>
       <div class="compare-card">
-        <strong>Gateway + Nodes Path</strong>
-        OpenClaw adds a heavier control plane: a long-lived gateway owns sessions, channels, and agent routing, then forwards execution to local or remote node hosts behind approvals and per-agent policies.
+        <strong>Platform-Native Path</strong>
+        Copilot inverts the execution model: assign a GitHub Issue and an autonomous agent spins up in a sandboxed Actions environment, explores the repo, writes code, runs tests, and opens a PR. The IDE and CLI surfaces run locally but can offload work to this cloud agent.
       </div>
     </div>
   </div>
