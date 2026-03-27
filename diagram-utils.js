@@ -1,10 +1,18 @@
 // diagram-utils.js — Shared SVG helper functions for all diagrams
+//
+// Font-size tiers (used consistently across ALL diagrams):
+//   T1 = 30  Primary box titles
+//   T2 = 22  Secondary box titles, content items
+//   T3 = 16  Zone labels, subtitles, descriptions
+//   T4 = 13  Code text, small annotations
+//   Pills use 14 (constrained by circle radius)
+
 window.diagramUtils = {
   pill: function (x, y, label, colorClass) {
     return [
       '<g class="dyn-pill" data-label="' + label + '" transform="translate(' + x + ',' + y + ')">',
-      '  <circle r="12" fill="var(--' + colorClass + ')" filter="url(#shadow)"/>',
-      '  <text y="4" text-anchor="middle" font-size="12" font-weight="800" fill="#FFFFFF">' + label + '</text>',
+      '  <circle r="15" fill="var(--' + colorClass + ')" filter="url(#shadow)"/>',
+      '  <text y="5" text-anchor="middle" font-size="14" font-weight="800" fill="#FFFFFF">' + label + '</text>',
       '</g>'
     ].join('\n');
   },
@@ -12,8 +20,8 @@ window.diagramUtils = {
   bubble: function (x, y, text, stroke, width) {
     return [
       '<g transform="translate(' + x + ',' + y + ')">',
-      '  <rect x="-' + (width / 2) + '" y="-20" width="' + width + '" height="40" rx="14" fill="var(--card-bg)" stroke="' + stroke + '" stroke-width="2" filter="url(#shadow)"/>',
-      '  <text y="6" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-primary)">' + text + '</text>',
+      '  <rect x="-' + (width / 2) + '" y="-22" width="' + width + '" height="44" rx="14" fill="var(--card-bg)" stroke="' + stroke + '" stroke-width="2" filter="url(#shadow)"/>',
+      '  <text y="6" text-anchor="middle" font-size="16" font-weight="700" fill="var(--text-primary)">' + text + '</text>',
       '</g>'
     ].join('\n');
   },
@@ -21,8 +29,8 @@ window.diagramUtils = {
   tag: function (x, y, title, detail, color) {
     return [
       '<g transform="translate(' + x + ',' + y + ')">',
-      '  <text y="0" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="1" fill="var(--' + color + ')">' + title + '</text>',
-      '  <text y="17" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text-primary)" style="font-family:\'JetBrains Mono\',monospace">' + detail + '</text>',
+      '  <text y="0" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="1" fill="var(--' + color + ')">' + title + '</text>',
+      '  <text y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text-primary)" style="font-family:\'JetBrains Mono\',monospace">' + detail + '</text>',
       '</g>'
     ].join('\n');
   },

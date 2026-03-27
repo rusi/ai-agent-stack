@@ -36,6 +36,7 @@
     });
   })();
 </script>
+<script>var SITE_VERSION = 'v1.0';</script>
 <style>
   .num-pill {
     display: inline-flex;
@@ -70,8 +71,9 @@
     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
   </button>
 </div>
+  <div class="hero-version-mobile" id="heroVersionMobile" style="display:none"></div>
   <div class="hero-overline">A Visual Guide</div>
-  <h1>The AI Agent Stack</h1>
+  <h1>The AI Agent <span style="white-space:nowrap">Stack <span class="hero-version" id="heroVersion" style="font-family:DM Sans,sans-serif;font-size:0.2em;font-weight:400;color:var(--text-light);opacity:0.4;vertical-align:baseline;letter-spacing:0.5px;margin-left:-6px;position:relative;top:0.12em"></span></span></h1>
   <p class="hero-subtitle">From Models to Multi-Agent Systems</p>
   <p class="hero-sub">An AI agent is not a new kind of model. It is a model API call wrapped with instructions, context, tools, permissions, and a loop that keeps working until the task is done.</p>
   <div class="hero-tags">
@@ -120,7 +122,7 @@
     <div class="text-step" data-layers="L0,L2a" id="step2a"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">2.0 &middot; The Runtime</span></div>
       <h2>The Agent Runtime</h2>
-      <p class="desc">Between you and the model sits the <strong>agent runtime</strong> — a local wrapper that assembles context, calls the model API, and interprets what comes back.</p>
+      <p class="desc">Between you and the model sits the <strong>agent runtime</strong> — a local process that assembles context, calls the model API, and interprets what comes back.</p>
       <p class="desc">At its core is the <strong>Execution Engine</strong>: the component that receives your request and coordinates everything that follows.</p>
     </div></div>
 
@@ -131,17 +133,18 @@
       <p class="desc">You ask: &ldquo;What is the weather in Boston?&rdquo; <span class="num-pill" style="background:var(--blue)">1</span>. This time the question goes to the Execution Engine — not directly to the model.</p>
     </div></div>
 
-    <!-- 2.2: Context Window + Engine → Model → ② -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf" id="step2c"><div class="text-step-inner">
+    <!-- 2.2: Model Prompt + Engine → Model → ② -->
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,LP0,LH" id="step2c"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">2.2 &middot; Context</span></div>
-      <h2>Context Window</h2>
-      <p class="desc">The runtime assembles a <strong>context window</strong> <span class="num-pill" style="background:var(--amber)">2</span> — system prompt, conversation history, and configuration — then forwards the question to the model <span class="num-pill" style="background:var(--blue)">2</span>.</p>
-      <p class="desc">The context window is the lens through which the model sees everything. Change the context, change the behavior.</p>
-      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The same base model becomes an assistant, a reviewer, or a planner — depending on what the runtime puts in the context window.</span></div>
+      <h2>The Model Prompt</h2>
+      <p class="desc">The <strong>Context Assembly</strong> layer <span class="num-pill" style="background:var(--amber)">2</span> gathers system instructions, conversation history, and configuration into a single <strong>model prompt</strong> — and sends it to the model <span class="num-pill" style="background:var(--blue)">2</span>.</p>
+      <p class="desc">The model prompt is what the model actually sees. Context assembly is the process that builds it. Change what goes in, change the behavior.</p>
+      <p class="desc">Notice the <strong style="color:var(--blue)">History</strong> box inside the engine — it holds every user message and model response from this session. Each new prompt includes the full conversation so far, giving the model continuity across turns.</p>
+      <div class="callout" style="background:var(--amber-bg)"><strong style="color:var(--amber)">Framing</strong><span style="color:var(--text-muted)">The same base model becomes an assistant, a reviewer, or a planner — depending on what the runtime puts in the model prompt.</span></div>
     </div></div>
 
     <!-- 2.3: MCP introduction (no new circle) -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df" id="step2d"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,LP1,LH" id="step2d"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">2.3 &middot; Tools</span></div>
       <h2>MCP &middot; Universal Plugins</h2>
       <p class="desc"><strong>MCP servers</strong> expose tool schemas — the runtime injects these into the context assembly so the model knows what tools are available.</p>
@@ -150,7 +153,7 @@
     </div></div>
 
     <!-- 2.4: Model returns tool_call → Engine → ③ -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a" id="step3a"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,LP1,LH" id="step3a"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">2.4 &middot; Tool Call</span></div>
       <h2>The Model Asks for Help</h2>
       <p class="desc">The model sees the weather tool in its context. Instead of guessing, it returns a structured <strong>tool call</strong> <span class="num-pill" style="background:var(--blue)">4</span>: <code>weather("Boston")</code>.</p>
@@ -158,21 +161,21 @@
     </div></div>
 
     <!-- 2.5: Engine calls MCP → ④ -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b" id="step3b"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b,LP1,LH" id="step3b"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">2.5 &middot; MCP Call</span></div>
       <h2>The Engine Calls MCP</h2>
       <p class="desc">The Execution Engine routes the tool call to the right MCP server <span class="num-pill" style="background:var(--purple)">5</span>. The server executes the request and returns real data.</p>
     </div></div>
 
     <!-- 2.6: Result → Model → ⑤ -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b,L3c" id="step3c"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b,L3c,LP2,LH" id="step3c"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">2.6 &middot; Result</span></div>
       <h2>Data Back to Model</h2>
       <p class="desc">The tool result <span class="num-pill" style="background:var(--green)">6</span> is fed back into the context and sent to the model. The model now has facts it could not have known from training alone.</p>
     </div></div>
 
     <!-- 2.7: Final answer → User → ⑥ -->
-    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b,L3c,L3d" id="step3d"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2b,L2c,L2cf,L2d,L2df,L3a,L3b,L3c,L3d,LP2,LH" id="step3d"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">2.7 &middot; The Answer</span></div>
       <h2>Grounded Response</h2>
       <p class="desc">With real data in context, the model produces a factual answer <span class="num-pill" style="background:var(--green)">7</span> and the runtime delivers it to you.</p>
@@ -182,15 +185,15 @@
     <!-- ====== STEP 3: Instructions, Skills, Bash — new scenario ====== -->
 
     <!-- 3.0: Instructions zone appears -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a" id="step3_0"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,LP3_0,LH,LM" id="step3_0"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">3.0 &middot; Instructions</span></div>
       <h2>The Instruction Layer</h2>
       <p class="desc">To the left of the runtime sits the <strong>instruction layer</strong> — project-level files that define identity, rules, and behavior. These are injected into the context assembly on every call.</p>
-      <p class="desc">This is where humans set the guardrails. The model follows them because they are text in the prompt.</p>
+      <p class="desc">The engine now also shows <strong style="color:var(--amber)">Memory</strong> — persistent storage that survives across sessions. While History resets when you start a new conversation, Memory lets the agent recall user preferences, project context, and past decisions indefinitely. The Context Assembly layer pulls in relevant memories and includes them in the Model Prompt, so the model can act on information from previous sessions.</p>
     </div></div>
 
     <!-- 3.1: AGENTS.md → ① -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf" id="step3_1"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,LP3_0,LH,LM" id="step3_1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--amber)"></span><span style="color:var(--amber)">3.1 &middot; Persona</span></div>
       <h2>AGENTS.md</h2>
       <p class="desc">Instruction files <span class="num-pill" style="background:var(--amber)">1</span> get loaded into context assembly. Claude Code uses <code>CLAUDE.md</code>. OpenAI Codex uses <code>AGENTS.md</code>. Cursor uses <code>.cursor/rules</code>.</p>
@@ -199,7 +202,7 @@
     </div></div>
 
     <!-- 3.2: SKILL.md only → ② -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f" id="step3_2"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,LP3_1,LH,LM" id="step3_2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">3.2 &middot; Skills</span></div>
       <h2>Reusable Workflows</h2>
       <p class="desc">A <strong>skill registry</strong> <span class="num-pill" style="background:var(--rose)">2</span> lists available workflows in the context — names and descriptions the model can read. When relevant, the model makes a tool call to load the full skill file into context.</p>
@@ -207,87 +210,87 @@
     </div></div>
 
     <!-- 3.3: New prompt "Run my tests" → ④ (no bash yet) -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L3e" id="step3_3"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L3e,LP3_2,LH,LM" id="step3_3"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">3.3 &middot; New Prompt</span></div>
       <h2>A Real Request</h2>
       <p class="desc">You ask: &ldquo;Run my tests&rdquo; <span class="num-pill" style="background:var(--blue)">3</span>. The runtime assembles instructions, tool schemas, and the skill registry into context, then sends everything to the model.</p>
     </div></div>
 
     <!-- 3.4: Model loads /test skill → ⑤ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L3e,L3f" id="step3_4"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L3e,L3f,LP3_3,LH,LM" id="step3_4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--rose)"></span><span style="color:var(--rose)">3.4 &middot; Skill Load</span></div>
       <h2>The Model Loads a Skill</h2>
       <p class="desc">The model sees <code>/test</code> in the skill registry. It returns a tool call <span class="num-pill" style="background:var(--rose)">4</span>: <code>load_skill("/test")</code>. The engine reads the skill file and returns its content — instructions for running and reporting tests.</p>
     </div></div>
 
     <!-- 3.5: Model calls bash → ⑥ (bash box appears here) -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L7,L3e,L3f,L3g" id="step3_5"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L7,L3e,L3f,L3g,LP3_4,LH,LM" id="step3_5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">3.5 &middot; Bash Call</span></div>
       <h2>Shell Execution</h2>
-      <p class="desc">The test skill tells the model to run tests. The model calls <code>bash("pytest --cov")</code> <span class="num-pill" style="background:var(--orange)">5</span> — and the <strong>Bash / Shell</strong> tool appears inside the engine. The engine runs the command locally and returns the output.</p>
+      <p class="desc">The test skill tells the model to run tests. The model calls <code>bash("pytest --cov")</code> <span class="num-pill" style="background:var(--orange)">5</span> and the engine executes the command locally, returning stdout and stderr as the tool result.</p>
       <p class="desc">This is what separates a chatbot from an agent: the ability to run real commands on your machine.</p>
     </div></div>
 
     <!-- 3.6: Final result → ⑦ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L7,L3e,L3f,L3g,L3h" id="step3_6"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L5bf,L6,L6f,L7,L3e,L3f,L3g,L3h,LP3_4,LH,LM" id="step3_6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">3.6 &middot; Done</span></div>
       <h2>Test Results</h2>
       <p class="desc">The model reads the test output, summarizes the results, and reports back <span class="num-pill" style="background:var(--green)">6</span>: all 42 tests passing with 94% coverage. One prompt, one skill, one bash call.</p>
       <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Skill + Bash = Power</strong><span style="color:var(--text-muted)">Skills are reusable workflows. Bash gives raw system access. Together they let the agent do real work — not just answer questions.</span></div>
     </div></div>
 
-    <!-- ====== STEP 4: Autonomous Loop ====== -->
+    <!-- ====== STEP 4: Agentic Loop ====== -->
 
     <!-- 4.0: Loop boundary appears -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8" id="step4_0"><div class="text-step-inner">
-      <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">4.0 &middot; Autonomy</span></div>
-      <h2>The Autonomous Loop</h2>
-      <p class="desc">This is the jump from assistant to agent. The model itself has not changed — it still handles <strong>one prompt and one prediction at a time</strong>.</p>
-      <p class="desc">The loop comes from <strong>instructions in the context</strong>. The persona tells the model: plan your approach, take an action, observe the result, decide if you are done. The runtime wrapper re-invokes the model after each step.</p>
-      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Instructions, Not Magic</strong><span style="color:var(--text-muted)">The model does not &ldquo;loop&rdquo; — the wrapper does. Plan &rarr; act &rarr; observe &rarr; repeat, until the task is complete.</span></div>
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,LP4_0,LH,LM" id="step4_0"><div class="text-step-inner">
+      <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">4.0 &middot; Becoming an Agent</span></div>
+      <h2>The Agentic Loop</h2>
+      <p class="desc">You have already seen every piece: the runtime, the model prompt, tools, instructions, and skills. Now they work together. The persona tells the model: <em>plan your approach, take an action, observe the result, decide if you are done.</em></p>
+      <p class="desc">The model still handles <strong>one prompt and one prediction at a time</strong>. After each response, the Execution Engine feeds the result back and calls the model again. The loop is not inside the model &mdash; it is the engine re-invoking it.</p>
+      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Same Pieces, New Behavior</strong><span style="color:var(--text-muted)">Nothing was added. The instructions changed. Plan &rarr; act &rarr; observe &rarr; repeat, until the task is complete.</span></div>
     </div></div>
 
     <!-- 4.1: Prompt enters engine ① -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q" data-scroll-offset="0" id="step4_1"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,LP4_0,LH,LM" data-scroll-offset="0" id="step4_1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--blue)"></span><span style="color:var(--blue)">4.1 &middot; Prompt</span></div>
       <h2>A Complex Request</h2>
       <p class="desc">You say: &ldquo;Implement the dashboard.&rdquo; <span class="num-pill" style="background:var(--blue)">1</span> The request enters the engine with instructions, tool schemas, and skill registry already in context.</p>
     </div></div>
 
     <!-- 4.2: MCP Jira call ② -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4a_mcp" data-scroll-offset="0" id="step4_2"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4a_mcp,LP4_1,LH,LM" data-scroll-offset="0" id="step4_2"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--purple)"></span><span style="color:var(--purple)">4.2 &middot; Plan</span></div>
       <h2>Gather Requirements</h2>
-      <p class="desc">The model&rsquo;s first move: call Jira <span class="num-pill" style="background:var(--purple)">2</span> to fetch the ticket specs. The MCP server returns the requirements. Now the model has a plan.</p>
+      <p class="desc">The model&rsquo;s first move: call Jira <span class="num-pill" style="background:var(--purple)">2</span> to fetch the ticket specs. The MCP server returns the requirements. With specs in context, the model forms a plan and starts executing.</p>
     </div></div>
 
     <!-- 4.3: Write files ③ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f" data-scroll-offset="0" id="step4_3"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f,LP4_2,LH,LM" data-scroll-offset="0" id="step4_3"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--orange)"></span><span style="color:var(--orange)">4.3 &middot; Build</span></div>
       <h2>Write the Code</h2>
       <p class="desc">With specs in context, the model starts building <span class="num-pill" style="background:var(--orange)">3</span>. It calls <code>writeFile</code> for <code>index.html</code> and <code>app.js</code>. Each call goes to the engine, executes, and returns. The model keeps going.</p>
     </div></div>
 
     <!-- 4.4: Test → fail ④ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f" data-scroll-offset="-120" id="step4_4"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f,LP4_3,LH,LM" data-scroll-offset="-120" id="step4_4"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">4.4 &middot; Test</span></div>
       <h2>Run Tests &mdash; Fail</h2>
       <p class="desc">The model runs <code>npm test</code> <span class="num-pill" style="background:var(--orange)">4</span>. Two tests fail. This is where the loop matters: the model does not stop or ask you what to do. It reads the error, decides what to fix, and continues.</p>
     </div></div>
 
     <!-- 4.5: Fix + retest ⑤ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f" data-scroll-offset="-275" id="step4_5"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4f,LP4_4,LH,LM" data-scroll-offset="-275" id="step4_5"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">4.5 &middot; Fix &amp; Verify</span></div>
       <h2>The Loop in Action</h2>
-      <p class="desc">The model fixes <code>app.js</code> <span class="num-pill" style="background:var(--orange)">5</span>, re-runs the tests, and this time they all pass. Each iteration is still one prompt → one prediction. The wrapper feeds the result back and the model decides: &ldquo;am I done?&rdquo;</p>
+      <p class="desc">The model fixes <code>app.js</code> <span class="num-pill" style="background:var(--orange)">5</span>, re-runs the tests, and this time they all pass. Each iteration is still one prompt → one prediction. The runtime feeds the result back and the model decides: &ldquo;am I done?&rdquo;</p>
     </div></div>
 
     <!-- 4.6: Done ⑥ -->
-    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4e,L4f" data-scroll-offset="-550" id="step4_6"><div class="text-step-inner">
+    <div class="text-step" data-layers="L0,L2a,L2c,L2d,L5a,L5b,L6,L7,L8,L4q,L4a,L4b,L4c,L4d,L4e,L4f,LP4_4,LH,LM" data-scroll-offset="-550" id="step4_6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">4.6 &middot; Done</span></div>
       <h2>Feature Complete</h2>
       <p class="desc">All tests pass. The model reports back <span class="num-pill" style="background:var(--green)">6</span>: dashboard implemented, 3 files created, 8 tests passing. One prompt from you. Multiple rounds of plan → act → observe → decide internally.</p>
-      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Same Model, New Behavior</strong><span style="color:var(--text-muted)">The model did not gain new capabilities. The instructions told it to keep going until done. The runtime wrapper handled the re-invocation. The loop is infrastructure, not intelligence.</span></div>
+      <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Same Model, New Behavior</strong><span style="color:var(--text-muted)">The model did not gain new capabilities. The instructions told it to keep going until done. The runtime handled the re-invocation. The loop is infrastructure, not intelligence.</span></div>
     </div></div>
 
   </div>
@@ -315,7 +318,7 @@
       <div class="step-label"><span class="step-dot" style="background:var(--teal)"></span><span style="color:var(--teal)">5.1 &middot; The Swarm Pattern</span></div>
       <h2>Specialized Agents, Coordinated</h2>
       <p class="desc">Each agent gets a different <strong>persona</strong> from its instruction file: one implements features, another reviews code, a third runs tests. Same model, different instructions, different behavior.</p>
-      <p class="desc">The orchestrator delegates tasks, collects results, and re-plans. Each sub-agent runs its own autonomous loop &mdash; plan, act, observe, repeat &mdash; then reports back.</p>
+      <p class="desc">The orchestrator delegates tasks, collects results, and re-plans. Each sub-agent runs its own agentic loop &mdash; plan, act, observe, repeat &mdash; then reports back.</p>
       <div class="callout" style="background:var(--teal-bg)"><strong style="color:var(--teal)">Same Building Blocks</strong><span style="color:var(--text-muted)">A multi-agent system is just more of what you&rsquo;ve already seen: runtimes, contexts, models, and tools. The orchestrator is itself an agent &mdash; it just delegates instead of executing.</span></div>
     </div></div>
 
@@ -330,7 +333,7 @@
     <div class="text-step" data-layers="DL0,DL1_machine" id="step6_1"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--green)"></span><span style="color:var(--green)">6.1 &middot; Your Machine</span></div>
       <h2>The Local Perimeter</h2>
-      <p class="desc">The agent CLI, runtimes, and all tool execution happen <strong>on your machine</strong>. Your code, your files, your bash — nothing leaves unless you allow it.</p>
+      <p class="desc">The agent runtimes, tools, and all execution happen <strong>on your machine</strong>. Your code, your files, your bash — nothing leaves unless you allow it.</p>
       <div class="callout" style="background:var(--green-bg)"><strong style="color:var(--green)">Local Execution</strong><span style="color:var(--text-muted)">The runtime reads your files, runs your tests, and writes your code. The model never sees your filesystem directly — only what the runtime sends in context.</span></div>
     </div></div>
 
@@ -372,10 +375,10 @@
     <div class="text-step" data-layers="DL0,DL1_machine,DL2_sandbox,DL3_models,DL4_mcp_local,DL5_mcp_cloud,DL6_gov" id="step6_6"><div class="text-step-inner">
       <div class="step-label"><span class="step-dot" style="background:var(--coral)"></span><span style="color:var(--coral)">6.6 &middot; Attack Surface</span></div>
       <h2>Where Are the Risks?</h2>
-      <p class="desc"><strong style="color:var(--coral)">&loz;1</strong> &mdash; The agent can read <code>.env</code> files, SSH keys, API tokens from your filesystem. Credentials are one tool call away.</p>
-      <p class="desc"><strong style="color:var(--coral)">&loz;2</strong> &mdash; Local MCPs can call external APIs. A &ldquo;local&rdquo; web-search MCP sends queries over the internet. Data crosses your perimeter.</p>
-      <p class="desc"><strong style="color:var(--coral)">&loz;3</strong> &mdash; Remote MCP servers hold your API tokens and receive your data. Third-party services see what you send them.</p>
-      <p class="desc"><strong style="color:var(--coral)">&loz;4</strong> &mdash; Cloud models receive every prompt. Where are logs stored? Is your data used for training? Who has access?</p>
+      <p class="desc"><span class="risk-num">1</span>The agent can read <code>.env</code> files, SSH keys, API tokens from your filesystem. Credentials are one tool call away.</p>
+      <p class="desc"><span class="risk-num">2</span>Local MCPs can call external APIs. A &ldquo;local&rdquo; web-search MCP sends queries over the internet. Data crosses your perimeter.</p>
+      <p class="desc"><span class="risk-num">3</span>Remote MCP servers hold your API tokens and receive your data. Third-party services see what you send them.</p>
+      <p class="desc"><span class="risk-num">4</span>Cloud models receive every prompt. Where are logs stored? Is your data used for training? Who has access?</p>
       <div class="callout" style="background:var(--coral-bg)"><strong style="color:var(--coral)">Evaluate Before You Deploy</strong><span style="color:var(--text-muted)">Every numbered risk is a governance decision. Sandboxing, human-in-the-loop approvals, audit logs, and local models are your mitigations.</span></div>
     </div></div>
 
@@ -465,8 +468,8 @@
       <div class="eval-item"><div class="eval-num" style="background:var(--blue)">1</div><div class="eval-content"><h3>Data Sovereignty</h3><p>Where is the model running, and who stores the logs of my prompt history?</p></div></div>
       <div class="eval-item"><div class="eval-num" style="background:var(--green)">2</div><div class="eval-content"><h3>Tool Permissions</h3><p>What is the 'blast radius' if the agent goes rogue? Does it have write access?</p></div></div>
       <div class="eval-item"><div class="eval-num" style="background:var(--purple)">3</div><div class="eval-content"><h3>Auditability</h3><p>Can I replay every action the agent took in a verifiable log?</p></div></div>
-      <div class="eval-item"><div class="eval-num" style="background:var(--amber)">4</div><div class="eval-content"><h3>Approval Gates</h3><p>Where are the 'human-in-the-loop' checkpoints for high-risk actions?</p></div></div>
-      <div class="eval-item" style="border:none"><div class="eval-num" style="background:var(--coral)">5</div><div class="eval-content"><h3>Instruction Drift</h3><p>How do I prevent the agent from deviating from its core <code>AGENTS.md</code> policy?</p></div></div>
+      <div class="eval-item"><div class="eval-num" style="background:var(--amber)">4</div><div class="eval-content"><h3>Approval Gates</h3><p>Where are the 'human-in-the-loop' checkpoints for high-risk actions (and beware of approval fatigue)?</p></div></div>
+      <div class="eval-item" style="border:none"><div class="eval-num" style="background:var(--coral)">5</div><div class="eval-content"><h3>Instruction Drift</h3><p>How do I detect, correct, and prevent the agent from deviating from its core <code>AGENTS.md</code> scoped role?</p></div></div>
     </div>
   </div>
 </section>
@@ -491,6 +494,8 @@
     <a class="share-btn linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Frusi.github.io%2Fai-agent-stack&title=The%20AI%20Agent%20Stack&summary=A%20visual%20guide%20to%20how%20AI%20agents%20actually%20work%20%E2%80%94%20from%20models%20to%20multi-agent%20systems." target="_blank" rel="noopener">Share on LinkedIn</a>
     <a class="share-btn x" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Frusi.github.io%2Fai-agent-stack&text=The%20AI%20Agent%20Stack%20%E2%80%94%20a%20visual%20guide%20to%20AI%20Agents" target="_blank" rel="noopener">Share on X</a>
   </div>
+  <p class="footer-credits" id="footerCredits"></p>
+  <p class="footer-version" id="footerVersion"></p>
   <div class="footer-credit">
     <span>Made with</span>
     <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
@@ -515,6 +520,32 @@
         window.applyTheme(t);
       });
     });
+  })();
+</script>
+<div class="version-badge" id="versionBadge"></div>
+<script>
+  // Populate version strings from single source
+  document.getElementById('heroVersion').textContent = SITE_VERSION;
+  var mobileVer = document.getElementById('heroVersionMobile');
+  mobileVer.textContent = SITE_VERSION;
+  if (window.innerWidth <= 900) { mobileVer.style.display = 'block'; }
+  document.getElementById('versionBadge').textContent = SITE_VERSION;
+  document.getElementById('footerVersion').textContent = SITE_VERSION;
+  document.getElementById('footerCredits').textContent = 'Thanks Paul for your great feedback.';
+
+  // Show/hide fixed version badge based on scroll position
+  (function() {
+    var badge = document.getElementById('versionBadge');
+    var hero = document.getElementById('sec-hero');
+    var footer = document.querySelector('.footer');
+    function onScroll() {
+      var heroBot = hero.getBoundingClientRect().bottom;
+      var footerTop = footer.getBoundingClientRect().top;
+      var show = heroBot < 0 && footerTop > window.innerHeight;
+      badge.classList.toggle('show', show);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   })();
 </script>
 <script src="diagram-utils.js"></script>

@@ -51,6 +51,20 @@ Each `.text-step` has a `data-layers` attribute listing which SVG `<g class="lay
 
 Steps are grouped by their section number (extracted from label text like "3.2 · Skills"). Each group becomes a nav pill with clickable segments. Keyboard arrows navigate between all `navItems` (hero dot + pill segments + post-scrolly section dots).
 
+## Font Size System (ALL diagrams)
+
+Both diagrams use a strict 4-tier font size system defined in `diagram-utils.js`:
+
+| Tier | Size | Usage |
+|---|---|---|
+| T1 | 30 | Primary box titles (The User, Model, Agent N, Orchestrator) |
+| T2 | 22 | Secondary titles, content items (Context, Engine, Tools/Bash, GitHub, Files, etc.) |
+| T3 | 16 | Zone labels, subtitles, descriptions (AGENT RUNTIME, CONTEXT ASSEMBLY, provider names) |
+| T4 | 13 | Code text, small annotations, monospace content |
+| Pills | 14 | Constrained by circle radius (numbered pills in diagram-utils `pill()`) |
+
+**Boundary pill labels** (deploy-diagram.js `pillLabel()`) use T3 (16) with `letter-spacing: 2`.
+
 ## Main Diagram Layers (diagram.js)
 
 **ViewBox:** `0 0 1260 1060`
@@ -59,6 +73,9 @@ Steps are grouped by their section number (extracted from label text like "3.2 �
 - User box: x=50, w=200 (centered at x=150)
 - Engine box: x=430, w=300 (centered at x=580)
 - Model box: x=970, w=230 (centered at x=1085)
+- Model Prompt document: x=945, y=80, w=280, h=260 (center_x=1085, aligned with Model)
+- History box: 135×56, inside engine (left side)
+- Memory box: 135×56, inside engine (right side)
 
 | Layer ID | Content | First used in step |
 |---|---|---|
@@ -73,6 +90,11 @@ Steps are grouped by their section number (extracted from label text like "3.2 �
 | `L3b` | MCP call flow | 2.5 |
 | `L3c` | Result flow | 2.6 |
 | `L3d` | Answer flow | 2.7 |
+| `LH` | History box (session turns) inside engine | 2.2 |
+| `LM` | Memory box (persistent) inside engine | 3.0 |
+| `LP0`–`LP2` | Model Prompt content — 2.x weather conversation (3 progressive states) | 2.2–2.7 |
+| `LP3_0`–`LP3_3` | Model Prompt content — 3.x instructions/skills/test (4 progressive states) | 3.0–3.6 |
+| `LP4_0`–`LP4_2` | Model Prompt content — 4.x dashboard agentic loop (3 progressive states) | 4.0–4.6 |
 | `L5a` | Instructions box | 3.0 |
 | `L5b`, `L5bf` | Persona section + arrow | 3.1 |
 | `L6`, `L6f` | Skills section + arrow | 3.2 |
@@ -81,12 +103,12 @@ Steps are grouped by their section number (extracted from label text like "3.2 �
 | `L3g` | Bash call flow | 3.5 |
 | `L3h` | Done state | 3.6 |
 | `L7` | MCP servers panel | 3.5 |
-| `L8` | Autonomous loop outline | 4.0 |
+| `L8` | Agentic loop outline | 4.0 |
 | `L4q` | Loop prompt | 4.1 |
 | `L4a`–`L4f` | Loop steps (plan→build→test→fix→done) | 4.2–4.6 |
 | `L4a_mcp` | MCP in loop context | 4.2 |
 
-**Step 4 scroll animation:** Steps 4.3–4.6 have `data-scroll-offset` values. `scrolly.js` translates a `<g id="L4inner">` group vertically to scroll through the autonomous loop steps, with opacity fading for arrows entering/leaving the visible band.
+**Step 4 scroll animation:** Steps 4.3–4.6 have `data-scroll-offset` values. `scrolly.js` translates a `<g id="L4inner">` group vertically to scroll through the agentic loop steps, with opacity fading for arrows entering/leaving the visible band.
 
 ## Deploy Diagram Layers (deploy-diagram.js)
 
@@ -124,7 +146,7 @@ Models row: y=580, h=110
 **Orchestrator layout (DO1_orch):**
 - Teal bar spans full agent width: `x = a1x-8 = 32`, `width = a3x+aw-a1x+16 = 666`
 - Position: `y=-60`, height=80, rx=28
-- Font: size 34, weight 800
+- Font: T1 (30), weight 800
 - Three straight vertical arrows from bar to each agent
 - "task" labels on left side of each arrow (text-anchor="end")
 
@@ -332,8 +354,8 @@ Title: "Before You Deploy" — 5 numbered eval items:
 | 1 | blue | Data Sovereignty | Where is the model running, and who stores the logs? |
 | 2 | green | Tool Permissions | What is the blast radius if the agent goes rogue? |
 | 3 | purple | Auditability | Can I replay every action in a verifiable log? |
-| 4 | amber | Approval Gates | Where are the human-in-the-loop checkpoints? |
-| 5 | coral | Instruction Drift | How do I prevent deviation from core policy? |
+| 4 | amber | Approval Gates | Where are the human-in-the-loop checkpoints (and beware of approval fatigue)? |
+| 5 | coral | Instruction Drift | How do I detect, correct, and prevent deviation from scoped role? |
 
 Compressed layout for single-page fit with separate mobile sizes (smaller nums, tighter padding).
 
@@ -367,7 +389,9 @@ Compressed layout for single-page fit with separate mobile sizes (smaller nums, 
 
 7. **Step 4 scroll animation** is the most complex part. `L4inner` is a group that translates vertically based on `data-scroll-offset` values. Arrow opacity fades in/out based on a visible band (`bandTop=500`, `bandBot=660`, `fadeRange=100`). The `yCenters` map (`L4a:518, L4b:646, L4c:778, L4d:933, L4f:1190`) defines each arrow's rest position. Progress between steps uses an adjusted curve (`adjProgress = (rawProgress - 0.4) / 0.6`) to delay the start of movement. To add a new loop step: add a layer, add its yCenters entry, add a `data-scroll-offset` step, and include it in `l4ArrowIds`.
 
-8. **diagram.js has local helpers too** — `pill()`, `bubble()`, `tag()` are duplicated in both `diagram.js` and `diagram-utils.js`. The main diagram uses its local copies. Only `deploy-diagram.js` uses `window.diagramUtils`.
+8. **Both diagrams use `window.diagramUtils`** — shared helpers (`pill()`, `bubble()`, `tag()`, `defs()`) live in `diagram-utils.js` and are referenced as `var u = window.diagramUtils` in both `diagram.js` and `deploy-diagram.js`. The font tier system (T1–T4) is documented in the comment header of `diagram-utils.js`.
+
+9. **Model Prompt document** uses a `clipPath` (`id="promptClip"`) to mask overflowing content. Three builder functions generate per-section content: `promptContent(state)` for 2.x weather, `promptContent3(state)` for 3.x instructions/skills/test, `promptContent4(state)` for 4.x dashboard agentic loop. Shared helpers are factored into `mkPrompt()` (returns lbl/ln/sm/sep/gap) and `promptWrap(parts, y)` (handles clipPath + scroll translation).
 
 ## Recording Scripts
 
